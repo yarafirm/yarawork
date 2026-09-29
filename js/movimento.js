@@ -385,16 +385,47 @@
     var mcBotao  = mcModal.querySelector('.mc-fechar');
     var mcVolta  = null;
 
+    /* As imagens do case vivem dentro do <template>, e o navegador não
+       baixa nada que está num template. Então elas só começavam a
+       carregar quando o case abria: o quadro da galeria aparecia vazio,
+       pulava de altura quando a primeira chegava, e cada seta mostrava
+       um branco até a próxima descer. Duas coisas resolvem:
+       1. aquecer — ao passar o mouse (ou focar) no cartão, as imagens
+          daquele case já vão para o cache, antes do clique;
+       2. ao abrir, tirar o lazy de todas (as escondidas também) e só
+          revelar cada uma quando estiver pronta, com um fade curto.  */
+    var mcAquecidos = [];
+    var mcAquecer = function (li) {
+      if (mcAquecidos.indexOf(li) !== -1) return;
+      var molde = li.querySelector('.case-conteudo');
+      if (!molde) return;
+      mcAquecidos.push(li);
+      Array.prototype.forEach.call(molde.content.querySelectorAll('img[src]'), function (img) {
+        var pre = new Image();
+        pre.src = img.getAttribute('src');
+      });
+    };
+    var mcPreparar = function (raiz) {
+      Array.prototype.forEach.call(raiz.querySelectorAll('.cg-item img'), function (img) {
+        img.removeAttribute('loading');
+        var pronta = function () { img.classList.add('pronta'); };
+        if (img.complete && img.naturalWidth) pronta();
+        else { img.addEventListener('load', pronta); img.addEventListener('error', pronta); }
+      });
+    };
+
     var mcAbrir = function (li) {
       var molde = li.querySelector('.case-conteudo');
       if (!molde) return;
       mcVolta = document.activeElement;
+      mcAquecer(li);
 
       var h = li.querySelector('h3'), cat = li.querySelector('.projeto-cat');
       mcTitulo.textContent = h ? h.textContent.trim() : '';
       mcSelo.textContent = cat ? cat.textContent.trim() : '';
       mcCorpo.innerHTML = '';
       mcCorpo.appendChild(molde.content.cloneNode(true));
+      mcPreparar(mcCorpo);
       cgIniciar(mcCorpo);
 
       mcModal.hidden = false;
@@ -423,6 +454,14 @@
       e.preventDefault();
       mcAbrir(li);
     });
+    // aquece no primeiro sinal de interesse: mouse em cima, foco ou toque
+    var mcInteresse = function (e) {
+      var li = e.target.closest && e.target.closest('.projeto');
+      if (li) mcAquecer(li);
+    };
+    mcGrade.addEventListener('mouseover', mcInteresse);
+    mcGrade.addEventListener('focusin', mcInteresse);
+    mcGrade.addEventListener('touchstart', mcInteresse, { passive: true });
 
     /* galeria dentro do case: as setas trocam a LP visível e a legenda.
        O markup vem clonado do <template>, então nada é ligado de antemão —

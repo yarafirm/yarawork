@@ -670,6 +670,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
    No menu ele entra com um selo "em breve", que some quando os
    textos existirem.                                            */
 .nav-blog{display:inline-flex;align-items:center;gap:8px}
+/* enquanto o blog está bloqueado, o item fica no menu mas não é link */
+.navegacao .nav-bloqueado{padding:4px 0;color:var(--tinta-45);cursor:default}
 .nav-selo{
   font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--tinta-45);border:1px solid var(--tinta-12);border-radius:99px;padding:2px 7px
@@ -1022,7 +1024,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 }
 .mc-corpo .cg-item{display:none;margin:0}
 .cg-item.ativo{display:block}
-.cg-item img{display:block;width:100%;height:auto}
+/* a imagem entra com um fade quando termina de carregar (classe pronta,
+   posta pelo JS); antes disso o quadro já tem altura, para não pular. */
+.cg-item img{display:block;width:100%;height:auto;opacity:0;transition:opacity .3s var(--curva)}
+.cg-item img.pronta{opacity:1}
+.mc-corpo .cg-tira{min-height:min(40vh,320px)}
 /* galeria compacta: imagens que não precisam de leitura (cards borrados) —
    cabem na tela sem rolar e não ocupam a página inteira.                */
 .mc-corpo .cg-compacta .cg-tira{max-height:none;overflow:visible;padding:16px}
