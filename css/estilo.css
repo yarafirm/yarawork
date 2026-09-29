@@ -122,18 +122,18 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 .navegacao a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--lima);transition:width .3s var(--curva)}
 .navegacao a:hover{color:var(--tinta)}
 .navegacao a:hover::after{width:100%}
-/* troca de idioma: uma pílula "PT / EN" no fim do menu. O idioma da
-   página fica aceso; o outro é o link.                              */
+/* troca de idioma: uma pílula "PT / EN" ao lado da logo. O idioma da
+   página fica aceso; o outro é o link.                               */
 .nav-idioma{
   display:inline-flex;align-items:center;gap:6px;
   font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
   padding:6px 12px;border:1px solid var(--tinta-45);border-radius:99px;color:var(--tinta-70)
 }
+.nav-idioma{margin-left:-8px}
 .nav-idioma .idioma-atual{color:var(--tinta);font-weight:500}
 .nav-idioma .idioma-sep{color:var(--tinta-45)}
-.navegacao .nav-idioma a{padding:0;color:var(--tinta-70);transition:color .2s}
-.navegacao .nav-idioma a::after{display:none}
-.navegacao .nav-idioma a:hover{color:var(--lima)}
+.nav-idioma a{color:var(--tinta-70);transition:color .2s}
+.nav-idioma a:hover{color:var(--lima)}
 
 /* ── hero ────────────────────────────────────────────────
    A capa antiga saiu do HTML; estas regras ficam para o caso de
@@ -871,8 +871,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
   .habilidade-linha{gap:7px}
   .habilidade-linha dt{flex-basis:100%;min-width:0}
   .navegacao{gap:16px;font-size:14px;overflow-x:auto}
-  /* no celular o menu rola de lado: a troca de idioma vai para o começo, onde dá para ver */
-  .navegacao .nav-idioma{order:-1}
+  .nav-idioma{margin-left:-16px;font-size:11px;padding:5px 9px}
   .hero-titulo{font-size:clamp(30px,8.6vw,46px)}
   .cartao-codigo{display:none}
   .secao-topo{flex-direction:column;align-items:flex-start}
