@@ -172,18 +172,18 @@ um contato ativo da campanha.</p>
 
 <h4>Minhas responsabilidades</h4>
 <ul>
-  <li><b>Estratégia e copywriting</b> — escrevi o briefing para a designer e toda a copy
+  <li><b>Estratégia e copywriting</b>: escrevi o briefing para a designer e toda a copy
   da página, com foco em conversão.</li>
-  <li><b>Backend e integração de dados</b> — desenvolvi a API que registrava as assinaturas,
+  <li><b>Backend e integração de dados</b>: desenvolvi a API que registrava as assinaturas,
   alimentava o contador ao vivo e sincronizava os dados com o Google Sheets.</li>
-  <li><b>Formulário</b> — desenvolvi o formulário de assinatura e o redirecionamento
+  <li><b>Formulário</b>: desenvolvi o formulário de assinatura e o redirecionamento
   automático para a conversa.</li>
 </ul>
 
 <h4>Backend</h4>
 <p>Construí todo o backend da página. O formulário enviava os dados para uma API que
-desenvolvi em Python/FastAPI. A API validava os campos — formato de e-mail e telefone, e bloqueio
-de assinaturas duplicadas — e salvava cada assinatura no banco de dados PostgreSQL.</p>
+desenvolvi em Python/FastAPI. A API validava os campos (formato de e-mail e telefone, e bloqueio
+de assinaturas duplicadas) e salvava cada assinatura no banco de dados PostgreSQL.</p>
 <p>Ao mesmo tempo, um webhook replicava os dados em tempo real para uma planilha do
 Google Sheets. Assim, a equipe da campanha, que não tinha acesso nem familiaridade com o
 banco de dados, acompanhava as assinaturas de forma simples e atualizada. O contador ao
@@ -193,7 +193,7 @@ mensagem pré-preenchida, iniciando a conversa automática.</p>
 
 <h4>LP da Paulinha</h4>
 <p>A segunda página é a de participação do Time Paulinha: o apoiador escolhe como quer
-ajudar — material físico, material digital, ser apoiador ou compartilhar nas redes — e
+ajudar (material físico, material digital, ser apoiador ou compartilhar nas redes) e
 preenche nome, WhatsApp, e-mail e cidade (a lista de municípios vem da API do IBGE,
 filtrada pela UF). Aqui não há banco de dados: uma API em FastAPI valida e normaliza os
 campos e envia cada lead por webhook para uma planilha do Google, via Apps Script; se o
@@ -317,11 +317,11 @@ eleitoral e distribuição geográfica.</p>
 
 <h4>Minhas responsabilidades</h4>
 <ul>
-  <li><b>Mapeamento</b> — levantei os processos e os dados das planilhas existentes e defini
+  <li><b>Mapeamento</b>: levantei os processos e os dados das planilhas existentes e defini
   com a coordenação o que o sistema precisava entregar.</li>
-  <li><b>Backend</b> — desenvolvi a estrutura de dados, a lógica de missões e pontuação, a
+  <li><b>Backend</b>: desenvolvi a estrutura de dados, a lógica de missões e pontuação, a
   autenticação e os endpoints do sistema.</li>
-  <li><b>Dashboards e relatórios</b> — construí os painéis de acompanhamento e o relatório
+  <li><b>Dashboards e relatórios</b>: construí os painéis de acompanhamento e o relatório
   semanal automatizado.</li>
 </ul>
 
@@ -330,8 +330,8 @@ eleitoral e distribuição geográfica.</p>
 Primeiro, migrei e estruturei os dados das planilhas: cabos eleitorais, regiões,
 expectativa de votos e histórico.</p>
 <p>Depois, em conjunto com o mobilizador digital da campanha, desenhei a lógica de
-gamificação. Ela incluía a atribuição de missões — crescimento de grupos de WhatsApp e
-compartilhamento orgânico de conteúdos da campanha —, a validação das missões concluídas e
+gamificação. Ela incluía a atribuição de missões, como crescimento de grupos de WhatsApp e
+compartilhamento orgânico de conteúdos da campanha, a validação das missões concluídas e
 o cálculo automático da pontuação semanal, que alimentava o ranking. O sistema tinha
 autenticação com níveis de acesso diferentes para a coordenação e para os cabos
 eleitorais.</p>
@@ -346,15 +346,15 @@ votos esperados e os principais indicadores do período.</p>
 
 <h4>Decisões técnicas</h4>
 <ul>
-  <li><b>Padronização e integridade dos dados</b> — as planilhas de origem continham nomes de
+  <li><b>Padronização e integridade dos dados</b>: as planilhas de origem continham nomes de
   pessoas, cidades e regiões escritos de formas diferentes. Criei regras de padronização
   (acentuação, maiúsculas e grafia única de municípios) e modelei o banco com identificadores
   únicos e restrições de unicidade por telefone. Assim, evitava registros duplicados e
   garantia que pontuações e votos esperados não fossem contados duas vezes.</li>
-  <li><b>Lógica de missões extensível</b> — estruturei as regras de pontuação de forma
+  <li><b>Lógica de missões extensível</b>: estruturei as regras de pontuação de forma
   configurável. A coordenação podia criar missões e regras automáticas ao longo da campanha
   sem mudar o código, e o sistema acompanhou a estratégia conforme ela evoluía.</li>
-  <li><b>Integração com o Google Contatos</b> — conectei o sistema à People API via OAuth. A
+  <li><b>Integração com o Google Contatos</b>: conectei o sistema à People API via OAuth. A
   sincronização diária mostrava quantos contatos a conta do candidato tinha, dando à
   coordenação um indicador direto do crescimento da base de relacionamento.</li>
 </ul>
@@ -407,13 +407,13 @@ centralizar e acompanhar toda a operação.</p>
 
 <h4>Minhas responsabilidades</h4>
 <ul>
-  <li><b>Mapeamento e arquitetura</b> — transformei o fluxo de trabalho das campanhas na
+  <li><b>Mapeamento e arquitetura</b>: transformei o fluxo de trabalho das campanhas na
   estrutura e nas regras do sistema.</li>
-  <li><b>Backend</b> — modelei o banco de dados e desenvolvi API, autenticação, níveis de
+  <li><b>Backend</b>: modelei o banco de dados e desenvolvi API, autenticação, níveis de
   acesso, histórico e cofre de credenciais.</li>
-  <li><b>Frontend</b> — desenvolvi as interfaces de campanhas, Kanban, cronograma, equipes e
+  <li><b>Frontend</b>: desenvolvi as interfaces de campanhas, Kanban, cronograma, equipes e
   anotações.</li>
-  <li><b>Infraestrutura</b> — implementei a aplicação com Docker, proxy, TLS e backups
+  <li><b>Infraestrutura</b>: implementei a aplicação com Docker, proxy, TLS e backups
   automatizados.</li>
 </ul>
 
@@ -461,7 +461,7 @@ informações de cada campanha com mais agilidade.</p>
           </div>
           <ul class="cg-tira">
             <li class="cg-item ativo" data-nome="Capa" data-info="Relatório técnico sobre as condições de trabalho, saúde física e mental de docentes da rede estadual · 2024"><img src="imagens/sinte/capa.webp" alt="Capa do relatório: ilustração de uma professora cansada entre pilhas de livros e o título 5ª Pesquisa de Saúde Docente" loading="lazy"></li>
-            <li class="cg-item" data-nome="Equipe" data-info="Coordenação do prof. Julian Borba; professores e pós-graduandos da UFSC, o SINTE e as graduandas de Ciências Sociais — eu entre elas"><img src="imagens/sinte/equipe.webp" alt="Página de créditos do relatório com a equipe de pesquisa" loading="lazy"></li>
+            <li class="cg-item" data-nome="Equipe" data-info="Coordenação do prof. Julian Borba; professores e pós-graduandos da UFSC, o SINTE e as graduandas de Ciências Sociais, eu entre elas"><img src="imagens/sinte/equipe.webp" alt="Página de créditos do relatório com a equipe de pesquisa" loading="lazy"></li>
             <li class="cg-item" data-nome="Sumário" data-info="Literatura sobre saúde docente, tendências 2020–2024, metodologia, seis seções de resultados, análise de grupos e regiões, recomendações"><img src="imagens/sinte/sumario.webp" alt="Sumário do relatório" loading="lazy"></li>
             <li class="cg-item" data-nome="Escopo do trabalho" data-info="Parceria do SINTE com o NIPP e o NECIP, da UFSC, dentro da Pesquisa Anual sobre a Saúde Docente"><img src="imagens/sinte/escopo.webp" alt="Página de escopo do trabalho" loading="lazy"></li>
             <li class="cg-item" data-nome="Tendências 2020–2024" data-info="As cinco edições comparadas: dedicação ao trabalho, afastamentos, uso de medicamentos, ideação suicida"><img src="imagens/sinte/tendencias.webp" alt="Abertura do capítulo de tendências observadas nas edições da pesquisa" loading="lazy"></li>
@@ -473,7 +473,7 @@ informações de cada campanha com mais agilidade.</p>
         <div class="case-numeros"><div class="cn"><b>2.597</b><span>respostas de docentes da rede estadual</span></div><div class="cn"><b>63</b><span>questões em seis seções</span></div><div class="cn"><b>5</b><span>edições comparadas, de 2020 a 2024</span></div></div>
 
 <h4>Contexto</h4>
-<p>Desde 2020, o SINTE — Sindicato dos Trabalhadores em Educação de Santa Catarina — faz
+<p>Desde 2020, o SINTE (Sindicato dos Trabalhadores em Educação de Santa Catarina) faz
 uma pesquisa anual sobre a saúde de quem dá aula na rede estadual. Na quinta edição, a
 análise passou a ser feita em parceria com dois núcleos de pesquisa da UFSC, o NIPP e o
 NECIP, dentro de um projeto de extensão coordenado pelo prof. Julian Borba. O resultado é
@@ -505,23 +505,23 @@ real de docentes da rede.</p>
 
 <h4>O que os dados mostram</h4>
 <ul>
-  <li><b>Saúde mental no centro</b> — 28% dos docentes relataram ideação suicida nos últimos
+  <li><b>Saúde mental no centro</b>: 28% dos docentes relataram ideação suicida nos últimos
   anos. O cansaço e o desgaste físico e emocional são apontados por 83% como o principal
   fator de adoecimento, seguidos das tensões com estudantes (68%) e com a direção (37%).</li>
-  <li><b>Trabalhar doente</b> — a série histórica acompanha, ano a ano, quem teve algum
+  <li><b>Trabalhar doente</b>: a série histórica acompanha, ano a ano, quem teve algum
   problema de saúde que afastou do trabalho, quem trabalhou doente e quem usa medicação
   contínua ou controlada.</li>
-  <li><b>Desigualdades</b> — os recortes por sexo, raça e tipo de contrato mostram que a
+  <li><b>Desigualdades</b>: os recortes por sexo, raça e tipo de contrato mostram que a
   sobrecarga e a insegurança não se distribuem igualmente; docentes temporários e mulheres
   aparecem mais expostos.</li>
-  <li><b>Recomendações</b> — o relatório fecha com propostas para políticas públicas:
+  <li><b>Recomendações</b>: o relatório fecha com propostas para políticas públicas:
   estabilização dos vínculos, formação continuada com universidades, ações afirmativas,
   programas de saúde ocupacional e atenção ao assédio moral no ambiente escolar.</li>
 </ul>
 
 <h4>Problema</h4>
 <p>Uma pesquisa por adesão, respondida por quem quer responder, tende a não representar a
-categoria inteira — e um sindicato precisa de números que se sustentem quando forem
+categoria inteira, e um sindicato precisa de números que se sustentem quando forem
 levados à mesa de negociação. O desafio era transformar cinco anos de questionários em um
 diagnóstico comparável e defensável, com método explícito e leitura clara para quem não é
 pesquisador.</p>
@@ -554,9 +554,9 @@ público para as inscrições.</p>
 
 <h4>Minhas responsabilidades</h4>
 <ul>
-  <li><b>Roteiro e conceito</b> — desenvolvi o roteiro apresentado ao cliente e a narrativa
+  <li><b>Roteiro e conceito</b>: desenvolvi o roteiro apresentado ao cliente e a narrativa
   do teaser, conectando inclusão, cuidado, aprendizado e inovação.</li>
-  <li><b>Direção de arte</b> — adaptei a identidade visual do congresso para o vídeo,
+  <li><b>Direção de arte</b>: adaptei a identidade visual do congresso para o vídeo,
   utilizando cores, grafismos e tipografia em movimento.</li>
 </ul>
 
@@ -655,7 +655,7 @@ enquanto o dinheiro é liberado.</p>
       <div class="projeto-capa"><img src="imagens/case-dmc.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">08</span></div>
       <p class="projeto-cat"><span class="ponto"></span>Marketing</p>
       <h3>Copys Boticário, PepsiCo &amp; Corteva</h3>
-      <p class="projeto-desc">Contratada como freelancer pela DMC, agência de eventos e incentivo, para escrever os copys dos cards de três campanhas — convites, kits e comunicados — pensando na experiência de quem recebe cada peça.</p>
+      <p class="projeto-desc">Contratada como freelancer pela DMC, agência de eventos e incentivo, para escrever os copys dos cards de três campanhas (convites, kits e comunicados), pensando na experiência de quem recebe cada peça.</p>
       <p class="projeto-meta"><span class="projeto-resultado">3 marcas, 9 cards</span> · Copywriting, UX writing, tom de voz</p>
       <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
 
