@@ -160,7 +160,7 @@
             <li class="cg-item" data-nome="Paulinha · Time Paulinha" data-info="Página de participação da campanha: o apoiador escolhe como ajudar e o lead vai direto para uma planilha do Google, sem banco"><img src="imagens/case-paulinha-completa.webp" alt="Landing page completa do Time Paulinha, do topo ao rodapé" loading="lazy"></li>
           </ul>
         </div>
-        <div class="case-numeros"><div class="cn"><b>~13.000</b><span>assinaturas em 30 dias</span></div><div class="cn"><b><mark class="falta" title="falta o número da taxa de conversão">Z%</mark></b><span>taxa de conversão</span></div><div class="cn"><b>30</b><span>dias no ar</span></div></div>
+        <div class="case-numeros"><div class="cn"><b>~13.000</b><span>assinaturas coletadas</span></div><div class="cn"><b>30</b><span>dias no ar</span></div></div>
         
 <h4>Contexto</h4>
 <p>Duas landing pages para campanhas eleitorais de 2026, com a mesma lógica: a página
@@ -182,8 +182,8 @@ um contato ativo da campanha.</p>
 
 <h4>Backend</h4>
 <p>Construí todo o backend da página. O formulário enviava os dados para uma API que
-desenvolvi em <mark class="falta" title="escolha qual dos dois foi">Node.js/Express · Python/FastAPI</mark>. A API validava os campos — formato de e-mail e telefone, e bloqueio
-de assinaturas duplicadas — e salvava cada assinatura no banco de dados <mark class="falta" title="escolha qual dos três foi">PostgreSQL · Supabase · Firebase</mark>.</p>
+desenvolvi em Python/FastAPI. A API validava os campos — formato de e-mail e telefone, e bloqueio
+de assinaturas duplicadas — e salvava cada assinatura no banco de dados PostgreSQL.</p>
 <p>Ao mesmo tempo, um webhook replicava os dados em tempo real para uma planilha do
 Google Sheets. Assim, a equipe da campanha, que não tinha acesso nem familiaridade com o
 banco de dados, acompanhava as assinaturas de forma simples e atualizada. O contador ao
@@ -249,7 +249,7 @@ que convertia engajamento orgânico em contato direto com a campanha.</p>
 <p>Construí o backend responsável por gerar e entregar as imagens. Cada cliente tinha uma
 configuração própria, moldura PNG, cores, número de WhatsApp e mensagem de
 redirecionamento, o que permitia criar uma nova página sem reescrever código.</p>
-<p>A composição da foto com o filtro era feita <mark class="falta" title="escolha onde a composição acontecia">no navegador, via Canvas API · no servidor, com Node.js</mark>, ajustando o enquadramento e
+<p>A composição da foto com o filtro era feita no navegador, via Canvas API, ajustando o enquadramento e
 exportando a imagem final em alta qualidade.</p>
 <p>Cada uso era registrado no banco de dados e replicado via webhook para uma planilha do
 Google Sheets. Com isso, o candidato e a equipe, sem acesso ao banco, acompanhavam o
