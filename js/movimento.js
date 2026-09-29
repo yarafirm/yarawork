@@ -449,6 +449,10 @@
         mcCorpo.innerHTML = '';
       }, reduzido ? 0 : 300);
       if (mcVolta && mcVolta.focus) mcVolta.focus();
+      // limpa o #case-NN da barra, senão o mesmo link não reabre o case
+      if (/^#case-\d\d$/.test(window.location.hash) && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
     };
 
     mcGrade.addEventListener('click', function (e) {
@@ -519,6 +523,25 @@
       if (e.shiftKey && document.activeElement === primeiro) { e.preventDefault(); ultimo.focus(); }
       else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus(); }
     });
+
+    /* link direto para um case (#case-03): o currículo aponta para cada
+       projeto. Rola até a grade e abre o case por cima dela, como o
+       clique faria; o número é o mesmo que aparece no cartão.          */
+    var mcPeloHash = function () {
+      var m = /^#case-(\d\d)$/.exec(window.location.hash);
+      if (!m) return;
+      var alvo = null;
+      Array.prototype.forEach.call(mcGrade.querySelectorAll('.projeto'), function (li) {
+        var num = li.querySelector('.projeto-num');
+        if (num && num.textContent.trim() === m[1]) alvo = li;
+      });
+      if (!alvo) return;
+      var secao = document.getElementById('projetos');
+      if (secao) secao.scrollIntoView();
+      mcAbrir(alvo);
+    };
+    window.addEventListener('hashchange', mcPeloHash);
+    window.setTimeout(mcPeloHash, 250);
   }
 
   /* ── certificado em pop-up ───────────────────────────────────
