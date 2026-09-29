@@ -5,6 +5,7 @@
   'use strict';
 
   var reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ingles = document.documentElement.lang === 'en';   /* en.html usa o mesmo script */
   var ponteiroFino = window.matchMedia('(pointer: fine)').matches;
 
   /* 1 ─ revelação ao rolar ------------------------------------------------ */
@@ -194,7 +195,9 @@
       if (aviso) {
         aviso.textContent = frente === 'todos'
           ? ''
-          : visiveis + (visiveis === 1 ? ' projeto' : ' projetos') + ' nesta frente.';
+          : ingles
+            ? visiveis + (visiveis === 1 ? ' project' : ' projects') + ' in this area.'
+            : visiveis + (visiveis === 1 ? ' projeto' : ' projetos') + ' nesta frente.';
       }
     };
 
@@ -259,7 +262,7 @@
 
     // primeiro convite: some no primeiro hover com rótulo, ou sozinho
     var convite = true;
-    rotulo.textContent = 'passe o mouse';
+    rotulo.textContent = ingles ? 'hover me' : 'passe o mouse';
     cursor.classList.add('com-rotulo');
     var tirarConvite = function () {
       if (!convite) return;
@@ -362,9 +365,9 @@
       setTimeout(function () { bcTexto.textContent = texto; bcTexto.style.opacity = 1; }, 170);
     };
     botaoContato.addEventListener('mouseenter', function () {
-      if (!reduzido) trocar('Respondo rápido');
+      if (!reduzido) trocar(ingles ? 'I reply fast' : 'Respondo rápido');
     });
-    botaoContato.addEventListener('mouseleave', function () { trocar('Vamos conversar'); });
+    botaoContato.addEventListener('mouseleave', function () { trocar(ingles ? "Let's talk" : 'Vamos conversar'); });
   }
 
   var ano = document.getElementById('ano');
@@ -533,7 +536,7 @@
       ctVolta = document.activeElement;
       var nome = link.getAttribute('data-cert') || '';
       ctImagem.src = link.getAttribute('href');
-      ctImagem.alt = 'Certificado: ' + nome;
+      ctImagem.alt = (ingles ? 'Certificate: ' : 'Certificado: ') + nome;
       ctTitulo.textContent = nome;
       ctModal.hidden = false;
       document.documentElement.style.overflow = 'hidden';

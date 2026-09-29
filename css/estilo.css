@@ -117,12 +117,19 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 .marca-nome{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.045em;text-transform:uppercase}
 .marca-sub{font-family:var(--display);font-weight:500;font-size:9.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--tinta-45);padding-left:2px}
 .asterisco{color:var(--lima)}
-.navegacao{display:flex;gap:26px;margin-left:auto;font-size:15px}
-}
+.navegacao{display:flex;gap:26px;margin-left:auto;font-size:15px;align-items:center}
 .navegacao a{position:relative;padding:4px 0;color:var(--tinta-70);transition:color .2s}
 .navegacao a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--lima);transition:width .3s var(--curva)}
 .navegacao a:hover{color:var(--tinta)}
 .navegacao a:hover::after{width:100%}
+/* troca de idioma: uma pílula miúda no fim do menu (PT ⇄ EN) */
+.navegacao .nav-idioma{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 10px;border:1px solid var(--tinta-12);border-radius:99px;color:var(--tinta-70);
+  transition:border-color .2s,color .2s
+}
+.navegacao .nav-idioma::after{display:none}
+.navegacao .nav-idioma:hover{border-color:var(--lima);color:var(--tinta)}
 
 /* ── hero ────────────────────────────────────────────────
    A capa antiga saiu do HTML; estas regras ficam para o caso de
@@ -860,6 +867,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
   .habilidade-linha{gap:7px}
   .habilidade-linha dt{flex-basis:100%;min-width:0}
   .navegacao{gap:16px;font-size:14px;overflow-x:auto}
+  /* no celular o menu rola de lado: a troca de idioma vai para o começo, onde dá para ver */
+  .navegacao .nav-idioma{order:-1}
   .hero-titulo{font-size:clamp(30px,8.6vw,46px)}
   .cartao-codigo{display:none}
   .secao-topo{flex-direction:column;align-items:flex-start}
