@@ -140,143 +140,7 @@
 
   <ul class="grade-projetos" tabindex="0" aria-label="Projetos">
     <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="1">
-      <div class="projeto-capa"><img src="imagens/case-lps.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">01</span></div>
-      <p class="projeto-cat"><span class="ponto"></span>Programação</p>
-      <h3>LPs · Pedro Sta Cannabis e Paulinha</h3>
-      <p class="projeto-desc">Duas landing pages de campanha: o abaixo-assinado que leva cada apoiador para uma conversa no WhatsApp e a página de participação que manda cada lead direto para a planilha da equipe.</p>
-      <p class="projeto-meta"><span class="projeto-resultado">~13.000 assinaturas em 30 dias</span> · 2 LPs, API própria, banco, webhook para Sheets, redirecionamento</p>
-      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
-
-      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
-      <template class="case-conteudo">
-        <div class="case-galeria">
-          <div class="cg-barra">
-            <p class="cg-legenda"><b></b><span></span></p>
-            <span class="cg-pos" aria-live="polite"></span>
-            <div class="dep-setas"><button class="dep-seta cg-seta" type="button" data-dir="-1" aria-label="Página anterior">←</button><button class="dep-seta cg-seta" type="button" data-dir="1" aria-label="Próxima página">→</button></div>
-          </div>
-          <ul class="cg-tira">
-            <li class="cg-item ativo" data-nome="Pedro Sta Cannabis · Manifesto" data-info="Abaixo-assinado Cannabis Medicinal no SUS: assinou, cai numa conversa de WhatsApp · API própria, banco e contador ao vivo"><img src="imagens/case-manifesto-completa.webp" alt="Landing page completa do abaixo-assinado Cannabis Medicinal no SUS, do topo ao rodapé" loading="lazy"></li>
-            <li class="cg-item" data-nome="Paulinha · Time Paulinha" data-info="Página de participação da campanha: o apoiador escolhe como ajudar e o lead vai direto para uma planilha do Google, sem banco"><img src="imagens/case-paulinha-completa.webp" alt="Landing page completa do Time Paulinha, do topo ao rodapé" loading="lazy"></li>
-          </ul>
-        </div>
-        <div class="case-numeros"><div class="cn"><b>~13.000</b><span>assinaturas coletadas</span></div><div class="cn"><b>30</b><span>dias no ar</span></div></div>
-        
-<h4>Contexto</h4>
-<p>Duas landing pages para campanhas eleitorais de 2026, com a mesma lógica: a página
-converte, e o dado vai direto para onde a equipe trabalha. Para o Pedro Santa,
-desenvolvi com uma designer de UI/UX uma landing page
-para coletar assinaturas de um manifesto. Depois de assinar, o apoiador era levado
-automaticamente para uma conversa no WhatsApp, o que transformava cada assinatura em
-um contato ativo da campanha.</p>
-
-<h4>Minhas responsabilidades</h4>
-<ul>
-  <li><b>Estratégia e copywriting</b>: escrevi o briefing para a designer e toda a copy
-  da página, com foco em conversão.</li>
-  <li><b>Backend e integração de dados</b>: desenvolvi a API que registrava as assinaturas,
-  alimentava o contador ao vivo e sincronizava os dados com o Google Sheets.</li>
-  <li><b>Formulário</b>: desenvolvi o formulário de assinatura e o redirecionamento
-  automático para a conversa.</li>
-</ul>
-
-<h4>Backend</h4>
-<p>Construí todo o backend da página. O formulário enviava os dados para uma API que
-desenvolvi em Python/FastAPI. A API validava os campos (formato de e-mail e telefone, e bloqueio
-de assinaturas duplicadas) e salvava cada assinatura no banco de dados PostgreSQL.</p>
-<p>Ao mesmo tempo, um webhook replicava os dados em tempo real para uma planilha do
-Google Sheets. Assim, a equipe da campanha, que não tinha acesso nem familiaridade com o
-banco de dados, acompanhava as assinaturas de forma simples e atualizada. O contador ao
-vivo da página consultava um endpoint da API com o total atualizado.</p>
-<p>Depois da confirmação, o backend redirecionava o apoiador para o WhatsApp com uma
-mensagem pré-preenchida, iniciando a conversa automática.</p>
-
-<h4>LP da Paulinha</h4>
-<p>A segunda página é a de participação do Time Paulinha: o apoiador escolhe como quer
-ajudar (material físico, material digital, ser apoiador ou compartilhar nas redes) e
-preenche nome, WhatsApp, e-mail e cidade (a lista de municípios vem da API do IBGE,
-filtrada pela UF). Aqui não há banco de dados: uma API em FastAPI valida e normaliza os
-campos e envia cada lead por webhook para uma planilha do Google, via Apps Script; se o
-webhook falhar, o lead fica num backup local e nada se perde. Tudo sobe com um
-<code>docker compose up</code>: nginx serve a página e faz o proxy da API.</p>
-
-<h4>Problema</h4>
-<p>A campanha precisava de uma forma rápida de captar apoiadores e levá-los direto para um
-canal de relacionamento, sem depender de planilhas manuais nem perder leads entre a
-assinatura e o primeiro contato.</p>
-
-      </template>
-    </li>
-
-    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="2">
-      <div class="projeto-capa"><img src="imagens/case-filtros.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">02</span></div>
-      <p class="projeto-cat"><span class="ponto"></span>Programação</p>
-      <h3>Filtros de foto personalizados</h3>
-      <p class="projeto-desc">Páginas sob medida onde o eleitor envia uma foto, recebe a imagem com a moldura do candidato e cai numa conversa.</p>
-      <p class="projeto-meta"><span class="projeto-resultado">+10 mil fotos geradas</span> · Composição de imagem, config por cliente, webhook, LGPD</p>
-      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
-
-      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
-      <template class="case-conteudo">
-        <div class="case-galeria">
-          <div class="cg-barra">
-            <p class="cg-legenda"><b></b><span></span></p>
-            <span class="cg-pos" aria-live="polite"></span>
-            <div class="dep-setas"><button class="dep-seta cg-seta" type="button" data-dir="-1" aria-label="LP anterior">←</button><button class="dep-seta cg-seta" type="button" data-dir="1" aria-label="Próxima LP">→</button></div>
-          </div>
-          <ul class="cg-tira">
-            <li class="cg-item ativo" data-nome="Edvaldo" data-info="Senador · 123"><img src="imagens/filtros/lpedvaldo.webp" alt="LP de filtro do Edvaldo, página inteira" loading="lazy"></li>
-            <li class="cg-item" data-nome="Carol Dartora" data-info="Deputada Federal · 1363"><img src="imagens/filtros/lpcarol.webp" alt="LP de filtro da Carol Dartora, página inteira" loading="lazy"></li>
-            <li class="cg-item" data-nome="Lucas Lucindo" data-info="Deputado Estadual · 20005"><img src="imagens/filtros/lplucindo.webp" alt="LP de filtro do Lucas Lucindo, página inteira" loading="lazy"></li>
-            <li class="cg-item" data-nome="Melissa Medeiros" data-info="Deputada Federal · 2030"><img src="imagens/filtros/lpmelissa.webp" alt="LP de filtro da Melissa Medeiros, página inteira" loading="lazy"></li>
-            <li class="cg-item" data-nome="Paulinha" data-info="Deputada Federal · 2020"><img src="imagens/filtros/lppaulinha.webp" alt="LP de filtro da Deputada Paulinha, página inteira" loading="lazy"></li>
-          </ul>
-        </div>
-        
-<div class="case-numeros"><div class="cn"><b>+10 mil</b><span>fotos geradas</span></div><div class="cn"><b>1</b><span>configuração por cliente, sem reescrever código</span></div><div class="cn"><b>2</b><span>fluxos de entrega: iOS e Android</span></div></div>
-        
-<h4>Contexto</h4>
-<p>Durante as eleições de 2026, criei com uma designer de UI/UX landing pages personalizadas
-para candidatos. Nelas, o eleitor enviava uma foto e recebia a imagem com a moldura
-(filtro PNG) do candidato, pronta para compartilhar.</p>
-
-<h4>Diferencial</h4>
-<p>Ao contrário de soluções genéricas, cada página era feita sob medida para o cliente.
-Depois do download da foto, o eleitor era redirecionado para uma conversa no WhatsApp, o
-que convertia engajamento orgânico em contato direto com a campanha.</p>
-
-<h4>Backend</h4>
-<p>Construí o backend responsável por gerar e entregar as imagens. Cada cliente tinha uma
-configuração própria, moldura PNG, cores, número de WhatsApp e mensagem de
-redirecionamento, o que permitia criar uma nova página sem reescrever código.</p>
-<p>A composição da foto com o filtro era feita no navegador, via Canvas API, ajustando o enquadramento e
-exportando a imagem final em alta qualidade.</p>
-<p>Cada uso era registrado no banco de dados e replicado via webhook para uma planilha do
-Google Sheets. Com isso, o candidato e a equipe, sem acesso ao banco, acompanhavam o
-engajamento em tempo real: número de fotos geradas, dispositivo, data e hora, e dados de
-contato aceitos via LGPD.</p>
-
-<h4>Desafios técnicos</h4>
-<p>A página foi otimizada para desktop e mobile, com fluxos diferentes para cada sistema:</p>
-<ul>
-  <li><b>iPhone (iOS/Safari)</b>: a imagem é entregue pela Web Share API
-  (<code>navigator.share</code>), porque o Safari limita downloads diretos e esse caminho
-  permite salvar ou compartilhar a foto de forma nativa.</li>
-  <li><b>Android</b>: a imagem final é convertida em um arquivo Blob e baixada
-  automaticamente por meio de um link de download, sem passos extras para o usuário.</li>
-</ul>
-
-<h4>Problema</h4>
-<p>Os filtros de campanha costumam ser feitos em ferramentas genéricas que falham no iPhone e
-terminam no compartilhamento da foto, sem que a campanha saiba quem participou. O desafio
-era criar um filtro que funcionasse em qualquer dispositivo e transformasse cada
-participação em um contato mensurável, com continuidade via WhatsApp.</p>
-
-      </template>
-    </li>
-
-    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="3">
-      <div class="projeto-capa"><img src="imagens/case-erp.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">03</span></div>
+      <div class="projeto-capa"><img src="imagens/case-erp.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">01</span></div>
       <p class="projeto-cat"><span class="ponto"></span>Programação</p>
       <h3>ERP de gamificação eleitoral</h3>
       <p class="projeto-desc">Sistema construído do zero que trocou dez planilhas por missões semanais, pontuação e ranking de mobilização.</p>
@@ -367,8 +231,8 @@ longo da campanha.</p>
       </template>
     </li>
 
-    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="4">
-      <div class="projeto-capa"><img src="imagens/case-gestao.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">04</span></div>
+    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="2">
+      <div class="projeto-capa"><img src="imagens/case-gestao.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">02</span></div>
       <p class="projeto-cat"><span class="ponto"></span>Programação</p>
       <h3>ERP de gestão de campanhas</h3>
       <p class="projeto-desc">Sistema que reúne, em um só lugar, todas as campanhas da agência: Kanban, cronograma, equipe, anotações e cofre de senhas.</p>
@@ -439,6 +303,142 @@ Figma e, depois, utilizei Claude Code para aperfeiçoar.</p>
 <p>A agência precisava substituir informações dispersas por uma visão centralizada da
 operação, permitindo identificar atrasos, acompanhar a carga das equipes e acessar
 informações de cada campanha com mais agilidade.</p>
+
+      </template>
+    </li>
+
+    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="3">
+      <div class="projeto-capa"><img src="imagens/case-filtros.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">03</span></div>
+      <p class="projeto-cat"><span class="ponto"></span>Programação</p>
+      <h3>Filtros de foto personalizados</h3>
+      <p class="projeto-desc">Páginas sob medida onde o eleitor envia uma foto, recebe a imagem com a moldura do candidato e cai numa conversa.</p>
+      <p class="projeto-meta"><span class="projeto-resultado">+10 mil fotos geradas</span> · Composição de imagem, config por cliente, webhook, LGPD</p>
+      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
+
+      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
+      <template class="case-conteudo">
+        <div class="case-galeria">
+          <div class="cg-barra">
+            <p class="cg-legenda"><b></b><span></span></p>
+            <span class="cg-pos" aria-live="polite"></span>
+            <div class="dep-setas"><button class="dep-seta cg-seta" type="button" data-dir="-1" aria-label="LP anterior">←</button><button class="dep-seta cg-seta" type="button" data-dir="1" aria-label="Próxima LP">→</button></div>
+          </div>
+          <ul class="cg-tira">
+            <li class="cg-item ativo" data-nome="Edvaldo" data-info="Senador · 123"><img src="imagens/filtros/lpedvaldo.webp" alt="LP de filtro do Edvaldo, página inteira" loading="lazy"></li>
+            <li class="cg-item" data-nome="Carol Dartora" data-info="Deputada Federal · 1363"><img src="imagens/filtros/lpcarol.webp" alt="LP de filtro da Carol Dartora, página inteira" loading="lazy"></li>
+            <li class="cg-item" data-nome="Lucas Lucindo" data-info="Deputado Estadual · 20005"><img src="imagens/filtros/lplucindo.webp" alt="LP de filtro do Lucas Lucindo, página inteira" loading="lazy"></li>
+            <li class="cg-item" data-nome="Melissa Medeiros" data-info="Deputada Federal · 2030"><img src="imagens/filtros/lpmelissa.webp" alt="LP de filtro da Melissa Medeiros, página inteira" loading="lazy"></li>
+            <li class="cg-item" data-nome="Paulinha" data-info="Deputada Federal · 2020"><img src="imagens/filtros/lppaulinha.webp" alt="LP de filtro da Deputada Paulinha, página inteira" loading="lazy"></li>
+          </ul>
+        </div>
+        
+<div class="case-numeros"><div class="cn"><b>+10 mil</b><span>fotos geradas</span></div><div class="cn"><b>1</b><span>configuração por cliente, sem reescrever código</span></div><div class="cn"><b>2</b><span>fluxos de entrega: iOS e Android</span></div></div>
+        
+<h4>Contexto</h4>
+<p>Durante as eleições de 2026, criei com uma designer de UI/UX landing pages personalizadas
+para candidatos. Nelas, o eleitor enviava uma foto e recebia a imagem com a moldura
+(filtro PNG) do candidato, pronta para compartilhar.</p>
+
+<h4>Diferencial</h4>
+<p>Ao contrário de soluções genéricas, cada página era feita sob medida para o cliente.
+Depois do download da foto, o eleitor era redirecionado para uma conversa no WhatsApp, o
+que convertia engajamento orgânico em contato direto com a campanha.</p>
+
+<h4>Backend</h4>
+<p>Construí o backend responsável por gerar e entregar as imagens. Cada cliente tinha uma
+configuração própria, moldura PNG, cores, número de WhatsApp e mensagem de
+redirecionamento, o que permitia criar uma nova página sem reescrever código.</p>
+<p>A composição da foto com o filtro era feita no navegador, via Canvas API, ajustando o enquadramento e
+exportando a imagem final em alta qualidade.</p>
+<p>Cada uso era registrado no banco de dados e replicado via webhook para uma planilha do
+Google Sheets. Com isso, o candidato e a equipe, sem acesso ao banco, acompanhavam o
+engajamento em tempo real: número de fotos geradas, dispositivo, data e hora, e dados de
+contato aceitos via LGPD.</p>
+
+<h4>Desafios técnicos</h4>
+<p>A página foi otimizada para desktop e mobile, com fluxos diferentes para cada sistema:</p>
+<ul>
+  <li><b>iPhone (iOS/Safari)</b>: a imagem é entregue pela Web Share API
+  (<code>navigator.share</code>), porque o Safari limita downloads diretos e esse caminho
+  permite salvar ou compartilhar a foto de forma nativa.</li>
+  <li><b>Android</b>: a imagem final é convertida em um arquivo Blob e baixada
+  automaticamente por meio de um link de download, sem passos extras para o usuário.</li>
+</ul>
+
+<h4>Problema</h4>
+<p>Os filtros de campanha costumam ser feitos em ferramentas genéricas que falham no iPhone e
+terminam no compartilhamento da foto, sem que a campanha saiba quem participou. O desafio
+era criar um filtro que funcionasse em qualquer dispositivo e transformasse cada
+participação em um contato mensurável, com continuidade via WhatsApp.</p>
+
+      </template>
+    </li>
+
+    <li data-cursor="ver o case" class="projeto cat-dados" data-frente="dados" data-revela data-atraso="4">
+      <div class="projeto-capa"><img src="imagens/case-lps.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">04</span></div>
+      <p class="projeto-cat"><span class="ponto"></span>Programação</p>
+      <h3>LPs · Pedro Sta Cannabis e Paulinha</h3>
+      <p class="projeto-desc">Duas landing pages de campanha: o abaixo-assinado que leva cada apoiador para uma conversa no WhatsApp e a página de participação que manda cada lead direto para a planilha da equipe.</p>
+      <p class="projeto-meta"><span class="projeto-resultado">~13.000 assinaturas em 30 dias</span> · 2 LPs, API própria, banco, webhook para Sheets, redirecionamento</p>
+      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
+
+      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
+      <template class="case-conteudo">
+        <div class="case-galeria">
+          <div class="cg-barra">
+            <p class="cg-legenda"><b></b><span></span></p>
+            <span class="cg-pos" aria-live="polite"></span>
+            <div class="dep-setas"><button class="dep-seta cg-seta" type="button" data-dir="-1" aria-label="Página anterior">←</button><button class="dep-seta cg-seta" type="button" data-dir="1" aria-label="Próxima página">→</button></div>
+          </div>
+          <ul class="cg-tira">
+            <li class="cg-item ativo" data-nome="Pedro Sta Cannabis · Manifesto" data-info="Abaixo-assinado Cannabis Medicinal no SUS: assinou, cai numa conversa de WhatsApp · API própria, banco e contador ao vivo"><img src="imagens/case-manifesto-completa.webp" alt="Landing page completa do abaixo-assinado Cannabis Medicinal no SUS, do topo ao rodapé" loading="lazy"></li>
+            <li class="cg-item" data-nome="Paulinha · Time Paulinha" data-info="Página de participação da campanha: o apoiador escolhe como ajudar e o lead vai direto para uma planilha do Google, sem banco"><img src="imagens/case-paulinha-completa.webp" alt="Landing page completa do Time Paulinha, do topo ao rodapé" loading="lazy"></li>
+          </ul>
+        </div>
+        <div class="case-numeros"><div class="cn"><b>~13.000</b><span>assinaturas coletadas</span></div><div class="cn"><b>30</b><span>dias no ar</span></div></div>
+        
+<h4>Contexto</h4>
+<p>Duas landing pages para campanhas eleitorais de 2026, com a mesma lógica: a página
+converte, e o dado vai direto para onde a equipe trabalha. Para o Pedro Santa,
+desenvolvi com uma designer de UI/UX uma landing page
+para coletar assinaturas de um manifesto. Depois de assinar, o apoiador era levado
+automaticamente para uma conversa no WhatsApp, o que transformava cada assinatura em
+um contato ativo da campanha.</p>
+
+<h4>Minhas responsabilidades</h4>
+<ul>
+  <li><b>Estratégia e copywriting</b>: escrevi o briefing para a designer e toda a copy
+  da página, com foco em conversão.</li>
+  <li><b>Backend e integração de dados</b>: desenvolvi a API que registrava as assinaturas,
+  alimentava o contador ao vivo e sincronizava os dados com o Google Sheets.</li>
+  <li><b>Formulário</b>: desenvolvi o formulário de assinatura e o redirecionamento
+  automático para a conversa.</li>
+</ul>
+
+<h4>Backend</h4>
+<p>Construí todo o backend da página. O formulário enviava os dados para uma API que
+desenvolvi em Python/FastAPI. A API validava os campos (formato de e-mail e telefone, e bloqueio
+de assinaturas duplicadas) e salvava cada assinatura no banco de dados PostgreSQL.</p>
+<p>Ao mesmo tempo, um webhook replicava os dados em tempo real para uma planilha do
+Google Sheets. Assim, a equipe da campanha, que não tinha acesso nem familiaridade com o
+banco de dados, acompanhava as assinaturas de forma simples e atualizada. O contador ao
+vivo da página consultava um endpoint da API com o total atualizado.</p>
+<p>Depois da confirmação, o backend redirecionava o apoiador para o WhatsApp com uma
+mensagem pré-preenchida, iniciando a conversa automática.</p>
+
+<h4>LP da Paulinha</h4>
+<p>A segunda página é a de participação do Time Paulinha: o apoiador escolhe como quer
+ajudar (material físico, material digital, ser apoiador ou compartilhar nas redes) e
+preenche nome, WhatsApp, e-mail e cidade (a lista de municípios vem da API do IBGE,
+filtrada pela UF). Aqui não há banco de dados: uma API em FastAPI valida e normaliza os
+campos e envia cada lead por webhook para uma planilha do Google, via Apps Script; se o
+webhook falhar, o lead fica num backup local e nada se perde. Tudo sobe com um
+<code>docker compose up</code>: nginx serve a página e faz o proxy da API.</p>
+
+<h4>Problema</h4>
+<p>A campanha precisava de uma forma rápida de captar apoiadores e levá-los direto para um
+canal de relacionamento, sem depender de planilhas manuais nem perder leads entre a
+assinatura e o primeiro contato.</p>
 
       </template>
     </li>
@@ -530,65 +530,7 @@ pesquisador.</p>
     </li>
 
     <li data-cursor="ver o case" class="projeto cat-marketing" data-frente="marketing" data-revela data-atraso="6">
-      <div class="projeto-capa"><img src="imagens/case-farol.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">06</span></div>
-      <p class="projeto-cat"><span class="ponto"></span>Marketing</p>
-      <h3>Congresso Farol 2023 · Instituto Farol</h3>
-      <p class="projeto-desc">Teaser de lançamento do congresso de autismo e desenvolvimento infantil: 45 segundos para abrir as inscrições presenciais e on-line.</p>
-      <p class="projeto-meta"><span class="projeto-resultado">Presencial e on-line, em dois dias</span> · Roteiro, direção de arte, motion design</p>
-      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
-
-      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
-      <template class="case-conteudo">
-        <div class="case-video">
-          <video controls playsinline preload="metadata" poster="imagens/farol/teaser-poster.webp" aria-label="Teaser do Congresso Farol 2023, 45 segundos">
-            <source src="imagens/farol/teaser-horizontal.mp4" type="video/mp4">
-          </video>
-          <p class="cg-nota">Teaser horizontal, 45 s · versão para site, YouTube e envio direto.</p>
-        </div>
-        <div class="case-numeros"><div class="cn"><b>45 s</b><span>de filme, do problema ao convite</span></div><div class="cn"><b>2</b><span>dias de congresso, 28 e 29 de outubro</span></div><div class="cn"><b>4</b><span>pilares no roteiro: atenção, cuidado, aprendizado, inovação</span></div></div>
-
-<h4>Contexto</h4>
-<p>Para o Congresso Instituto Farol 2023, voltado ao autismo e ao desenvolvimento infantil,
-o desafio era criar um teaser curto e acolhedor que apresentasse o evento e direcionasse o
-público para as inscrições.</p>
-
-<h4>Minhas responsabilidades</h4>
-<ul>
-  <li><b>Roteiro e conceito</b>: desenvolvi o roteiro apresentado ao cliente e a narrativa
-  do teaser, conectando inclusão, cuidado, aprendizado e inovação.</li>
-  <li><b>Direção de arte</b>: adaptei a identidade visual do congresso para o vídeo,
-  utilizando cores, grafismos e tipografia em movimento.</li>
-</ul>
-
-<h4>Conceito</h4>
-<p>O roteiro parte da rotina de famílias e profissionais antes de apresentar o congresso. A
-narrativa evolui de atenção, cuidado e aprendizado para inovação, posicionando o evento como
-espaço para acompanhar os avanços na área.</p>
-
-<h4>Produção</h4>
-<p>O teaser combina imagens de banco com motion design baseado na identidade do evento.
-Mosaicos, padrões, tipografia e legendas estruturam o ritmo e permitem que a mensagem seja
-compreendida mesmo sem áudio.</p>
-
-<h4>Decisões criativas</h4>
-<ul>
-  <li><b>Palavras como cenas</b>: termos centrais do roteiro ganham protagonismo visual.</li>
-  <li><b>Identidade em movimento</b>: elementos gráficos da marca conduzem transições e
-  ritmo.</li>
-  <li><b>Um único chamado</b>: o filme termina direcionando o público para o site de
-  inscrição, sem competir com informações secundárias.</li>
-</ul>
-
-<h4>Problema</h4>
-<p>Apresentar o congresso em poucos segundos para famílias, profissionais da saúde e
-educadores, mantendo uma comunicação acolhedora, clara e distante do tom institucional
-convencional.</p>
-
-      </template>
-    </li>
-
-    <li data-cursor="ver o case" class="projeto cat-marketing" data-frente="marketing" data-revela data-atraso="7">
-      <div class="projeto-capa"><img src="imagens/case-bv.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">07</span></div>
+      <div class="projeto-capa"><img src="imagens/case-bv.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">06</span></div>
       <p class="projeto-cat"><span class="ponto"></span>Marketing</p>
       <h3>Mumuzinho &amp; Banco BV</h3>
       <p class="projeto-desc">Filme hero do empréstimo com garantia de veículo: uma garagem que vira três mundos enquanto Mumuzinho canta "carro na garagem, dinheiro na mão".</p>
@@ -651,8 +593,8 @@ enquanto o dinheiro é liberado.</p>
       </template>
     </li>
 
-    <li data-cursor="ver o case" class="projeto cat-marketing" data-frente="marketing" data-revela data-atraso="8">
-      <div class="projeto-capa"><img src="imagens/case-dmc.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">08</span></div>
+    <li data-cursor="ver o case" class="projeto cat-marketing" data-frente="marketing" data-revela data-atraso="7">
+      <div class="projeto-capa"><img src="imagens/case-dmc.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">07</span></div>
       <p class="projeto-cat"><span class="ponto"></span>Marketing</p>
       <h3>Copys Boticário, PepsiCo &amp; Corteva</h3>
       <p class="projeto-desc">Contratada como freelancer pela DMC, agência de eventos e incentivo, para escrever os copys dos cards de três campanhas (convites, kits e comunicados), pensando na experiência de quem recebe cada peça.</p>
@@ -723,6 +665,64 @@ curto e direto. Nos cards de kit, o próprio objeto vira texto: chinelo, cordinh
 conquistou isso") e a instrução ("envie seu passaporte até quarta"). Quando os dois vêm
 juntos, a instrução se sobrepõe e o card vira um comunicado. O desafio era manter a
 experiência no centro sem perder nenhuma informação obrigatória.</p>
+
+      </template>
+    </li>
+
+    <li data-cursor="ver o case" class="projeto cat-marketing" data-frente="marketing" data-revela data-atraso="8">
+      <div class="projeto-capa"><img src="imagens/case-farol.webp" alt="" onerror="this.closest('.projeto-capa').classList.add('vazio')"><span class="projeto-num">08</span></div>
+      <p class="projeto-cat"><span class="ponto"></span>Marketing</p>
+      <h3>Congresso Farol 2023 · Instituto Farol</h3>
+      <p class="projeto-desc">Teaser de lançamento do congresso de autismo e desenvolvimento infantil: 45 segundos para abrir as inscrições presenciais e on-line.</p>
+      <p class="projeto-meta"><span class="projeto-resultado">Presencial e on-line, em dois dias</span> · Roteiro, direção de arte, motion design</p>
+      <button class="link-seta projeto-abrir" type="button">Ver o case <span class="seta">→</span></button>
+
+      <!-- o case inteiro mora aqui, sem ser renderizado; o modal clona -->
+      <template class="case-conteudo">
+        <div class="case-video">
+          <video controls playsinline preload="metadata" poster="imagens/farol/teaser-poster.webp" aria-label="Teaser do Congresso Farol 2023, 45 segundos">
+            <source src="imagens/farol/teaser-horizontal.mp4" type="video/mp4">
+          </video>
+          <p class="cg-nota">Teaser horizontal, 45 s · versão para site, YouTube e envio direto.</p>
+        </div>
+        <div class="case-numeros"><div class="cn"><b>45 s</b><span>de filme, do problema ao convite</span></div><div class="cn"><b>2</b><span>dias de congresso, 28 e 29 de outubro</span></div><div class="cn"><b>4</b><span>pilares no roteiro: atenção, cuidado, aprendizado, inovação</span></div></div>
+
+<h4>Contexto</h4>
+<p>Para o Congresso Instituto Farol 2023, voltado ao autismo e ao desenvolvimento infantil,
+o desafio era criar um teaser curto e acolhedor que apresentasse o evento e direcionasse o
+público para as inscrições.</p>
+
+<h4>Minhas responsabilidades</h4>
+<ul>
+  <li><b>Roteiro e conceito</b>: desenvolvi o roteiro apresentado ao cliente e a narrativa
+  do teaser, conectando inclusão, cuidado, aprendizado e inovação.</li>
+  <li><b>Direção de arte</b>: adaptei a identidade visual do congresso para o vídeo,
+  utilizando cores, grafismos e tipografia em movimento.</li>
+</ul>
+
+<h4>Conceito</h4>
+<p>O roteiro parte da rotina de famílias e profissionais antes de apresentar o congresso. A
+narrativa evolui de atenção, cuidado e aprendizado para inovação, posicionando o evento como
+espaço para acompanhar os avanços na área.</p>
+
+<h4>Produção</h4>
+<p>O teaser combina imagens de banco com motion design baseado na identidade do evento.
+Mosaicos, padrões, tipografia e legendas estruturam o ritmo e permitem que a mensagem seja
+compreendida mesmo sem áudio.</p>
+
+<h4>Decisões criativas</h4>
+<ul>
+  <li><b>Palavras como cenas</b>: termos centrais do roteiro ganham protagonismo visual.</li>
+  <li><b>Identidade em movimento</b>: elementos gráficos da marca conduzem transições e
+  ritmo.</li>
+  <li><b>Um único chamado</b>: o filme termina direcionando o público para o site de
+  inscrição, sem competir com informações secundárias.</li>
+</ul>
+
+<h4>Problema</h4>
+<p>Apresentar o congresso em poucos segundos para famílias, profissionais da saúde e
+educadores, mantendo uma comunicação acolhedora, clara e distante do tom institucional
+convencional.</p>
 
       </template>
     </li>
