@@ -1,0 +1,178 @@
+/* ═══════════════════════════════════════════════════════════
+   YARA — variação roxa
+
+   Terceira paleta, mesmo site. Importa o estilo original e só
+   redefine tokens, como a versão escura.
+
+   #1A1330  principal — o chão de tudo
+   #FFFFFF  secundária — superfícies: cartões, menu, depoimentos
+   #FFFFFF  secundária — texto, o bloco Código, as faixas claras
+   #C4AEF4  secundária — links, acentos macios, o bloco Marketing
+   #D4F25A  lima — ação: botão, destaque, o dado que importa
+
+   O chão escuro é a diferença desta versão: em vez de marfim com
+   blocos de cor, é um roxo profundo em que os blocos VIRAM as
+   áreas claras. O contraste se inverte, e o lima ganha o maior
+   brilho das três paletas.
+   ═══════════════════════════════════════════════════════════ */
+@import url("estilo.css");
+
+:root{
+  --marfim:#1a1330;          /* o chão                       */
+  --marfim-fundo:#ffffff;    /* superfícies e vazios         */
+  --tinta:#ffffff;           /* texto e as faixas claras     */
+  --claro:#ffffff;           /* cartões                      */
+
+  --tinta-70:rgba(255,255,255,.74);
+  --tinta-45:rgba(255,255,255,.48);
+  --tinta-12:rgba(255,255,255,.16);
+  --claro-70:rgba(26,19,48,.72);   /* texto sobre as faixas claras */
+
+  --lima:#d4f25a;
+  --ultramar:#c4aef4;        /* o papel de link vira lavanda */
+  --azul-claro:#c4aef4;
+
+
+  /* as palavras da capa, brancas e sem degradê */
+  --tom-1:#ffffff;
+  --tom-2:#ffffff;
+  --tom-3:#ffffff;
+  --tom-4:#ffffff;
+}
+
+/* ── a primeira metade é branca ─────────────────────────────
+   Marketing, Código e a faixa da escolha formam uma só área branca
+   no meio do roxo. Como os dois blocos perderam a cor que os
+   separava, quem faz a divisa agora é um filete — e os números
+   fantasma vêm em lilás, que é o único ponto de cor ali.       */
+.frente-marketing,.frente-dados,.encontro{background:#ffffff;color:#1a1330}
+.frente-marketing{border-right:1px solid rgba(26,19,48,.12)}
+.frente-numero{color:#c4aef4;opacity:.55}
+.olho-claro{color:rgba(26,19,48,.6)}
+.olho-claro::after{background:rgba(26,19,48,.35)}
+.frente .tracinho{background:#1a1330}
+.frente .link-seta{color:#1a1330;border-bottom-color:rgba(26,19,48,.35)}
+.frente .link-seta:hover{border-bottom-color:#1a1330}
+.encontro-marca{color:#c4aef4}
+.encontro-texto .e-mkt{color:#1a1330;font-weight:600}
+.encontro-texto .e-sorriso{color:#c4aef4}
+
+/* ── categorias ────────────────────────────────────────────
+   Marketing lavanda · Programação lima · CRM branco · o resto
+   em branco apagado.                                        */
+/* marketing e programação seguem a regra da base — branco e lima.
+   Aqui só as duas outras categorias precisam de ajuste.          */
+.cat-crm .ponto{background:#c4aef4}
+.cat-experimental .ponto{background:rgba(255,255,255,.45)}
+
+/* ── o lima manda na ação ──────────────────────────────────── */
+.botao{background:var(--lima);color:#1a1330}
+.botao:hover{background:#ffffff;color:#1a1330}
+.cursor-marca{color:var(--lima)}
+.cursor.ativo .cursor-marca{color:#c4aef4}
+.cursor-rotulo{background:var(--lima);color:#1a1330}
+.asterisco{color:var(--lima)}
+.marco-hoje .marco-h{color:var(--lima)}
+.post:hover{border-top-color:var(--lima)}
+.trajeto-linha{background:linear-gradient(180deg,var(--marketing) 0%,#ffffff 55%,var(--lima) 100%)}
+.depoimento:nth-child(2){border-top-color:var(--marketing)}
+
+/* ── os pontos que não vinham de token ─────────────────────── */
+.cabecalho{background:rgba(26,19,48,.88)}
+.contato-icone{border-color:rgba(26,19,48,.22)}
+.botao-contato{border-color:rgba(26,19,48,.28);color:#1a1330}
+.botao-contato:hover{background:#1a1330;border-color:#1a1330;color:#ffffff}
+.contato-links a{border-bottom-color:rgba(26,19,48,.24)}
+.projeto:hover{box-shadow:0 26px 54px rgba(20,8,48,.5)}
+.filtro-menu{box-shadow:0 20px 44px rgba(20,8,48,.55)}
+
+.letreiro-trilha .refrao{color:#1a1330}
+.letreiro-trilha i{color:#1a1330}
+.dep-trilho li span{background:var(--lima)}
+
+/* ── a foto no chão roxo ───────────────────────────────────── */
+.sobre-foto{filter:grayscale(1) contrast(1.04) brightness(1.06)}
+.sobre-foto:hover{filter:grayscale(0) contrast(1) brightness(1.02)}
+
+.alternar{
+  position:fixed;right:18px;bottom:18px;z-index:200;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--lima);color:#1a1330;padding:10px 16px;border-radius:99px
+}
+
+
+/* ── da escolha para baixo, tudo no roxo principal ──────────
+   A faixa "Você pode escolher" abre a segunda metade da página, e
+   dali até o rodapé o fundo é um só. Sem faixa lilás, sem bloco
+   branco: a descida não tem mais degrau nenhum.
+
+   O que dá relevo são os detalhes — lavanda nos contornos e nas
+   marcas, branco no texto e no que precisa de foco.            */
+.projetos,.depoimentos{background:#1a1330}
+
+/* os cartões: relevo por contorno, não por bloco de cor */
+.projeto{
+  background:rgba(255,255,255,.045);
+  border-color:rgba(196,174,244,.3);
+  color:var(--tinta)
+}
+.projeto:hover{border-color:#c4aef4;box-shadow:0 26px 54px rgba(8,4,22,.5)}
+.projeto-capa{background:rgba(255,255,255,.07)}
+.projeto-num{background:rgba(26,19,48,.85);color:var(--tinta-45)}
+
+/* filtro: contorno lavanda, lista branca */
+.filtro-gatilho{border-color:rgba(196,174,244,.35);color:var(--tinta)}
+.filtro-drop[data-aberto="true"] .filtro-gatilho{background:#c4aef4;border-color:#c4aef4;color:#1a1330}
+.filtro-drop[data-aberto="true"] .fg-n{color:rgba(26,19,48,.6)}
+.filtro-menu{background:#ffffff;color:#1a1330;border-color:rgba(26,19,48,.14)}
+.filtro{color:rgba(26,19,48,.72)}
+.filtro:hover{background:rgba(26,19,48,.06);color:#1a1330}
+.filtro.ativo{color:#1a1330}
+
+/* depoimentos e contato: lavanda nos contornos e nos links */
+.dep{border-top-color:rgba(196,174,244,.5)}
+.dep:nth-child(2){border-top-color:#c4aef4}
+.dep:nth-child(3){border-top-color:var(--lima)}
+.dep-seta{border-color:rgba(196,174,244,.35);color:var(--tinta-45)}
+.dep-seta:hover{border-color:#c4aef4;color:#c4aef4}
+/* ── "Vamos conversar" fecha em branco, com o lilás ─────────
+   O contato e o rodapé são a mesma área clara: a página termina sem
+   degrau. O lilás faz o trabalho dos contornos e dos links, e o
+   "conversar?" ganha o grifo na mesma cor.                      */
+.contato,.rodape{background:#ffffff;color:#1a1330}
+.contato-marca{color:#c4aef4}
+.sublinhado-claro::after{background:#c4aef4}
+.contato-texto p{color:rgba(26,19,48,.68)}
+.contato-icone{border-color:rgba(26,19,48,.18);color:#1a1330}
+.contato-links a{color:#1a1330;border-bottom-color:rgba(196,174,244,.7)}
+.botao-contato{border-color:rgba(26,19,48,.22);color:#1a1330}
+.botao-contato:hover{background:var(--lima);border-color:var(--lima);color:#1a1330}
+.rodape{color:rgba(26,19,48,.5)}
+.rodape a{color:rgba(26,19,48,.7)}
+.rodape a:hover{color:#c4aef4}
+
+/* ── "Vamos conversar" acende em lima ─────────────────────────────── */
+
+
+.recado-contato{background:var(--lima);color:#1a1330}
+
+
+
+/* o botão da trajetória, no roxo */
+.ver-trajetoria{border-color:rgba(196,174,244,.35);color:var(--tinta-70)}
+.ver-trajetoria:hover{border-color:#c4aef4;color:var(--tinta)}
+.ver-trajetoria[aria-expanded="true"]{background:#c4aef4;border-color:#c4aef4;color:#1a1330}
+
+/* o bloco livre do Sobre vive sobre o roxo: o lilás já contrasta sozinho */
+.cert-sinal::before,.cert-sinal::after{background:var(--tinta-45)}
+
+
+
+/* o fundo é escuro: o título dos cases vem em branco */
+:root{ --titulo-cases:#ffffff; }
+
+/* o contato aqui é claro: o lima sumiria, então o verde vem fechado */
+:root{ --verde-link:#4a7c1f; }
+
+/* aqui as faixas são claras: o filete precisa ser escuro */
+:root{ --linha-banda:rgba(26,19,48,.12); }

@@ -1,0 +1,1050 @@
+/* ═══════════════════════════════════════════════════════════
+   YARA WORK — sistema visual
+   Paleta e tipografia vêm do brandbook. Os tokens ficam aqui,
+   e só aqui: nenhuma cor literal no resto do arquivo.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  /* cor — cada uma com um trabalho
+     marketing  o bloco 01 e tudo que é da frente de criação
+     lima       ação e dado principal: botão, destaque, o que importa
+     ultramar   institucional: bloco 02, links, CRM
+     azul-claro o ultramar quando vira TEXTO no tema escuro            */
+  --marfim:#f5f1e8;
+  --marfim-fundo:#efeadf;
+  --tinta:#171a20;
+  --lima:#d4f25a;
+  --lilas:#c4aef4;
+  --titulo-cases:#171a20;   /* vira branco nos temas escuros    */
+  --verde-link:#d4f25a;     /* o verde do hover no contato      */
+  --linha-banda:rgba(252,251,248,.14);  /* o filete das faixas claras/escuras */
+  /* A COR DO MARKETING — uma linha muda o site inteiro. */
+  --marketing:#db3f72;
+
+  /* as palavras da capa. O JS interpola entre as quatro paradas — com
+     os quatro valores iguais, elas saem numa cor sólida, sem degradê.
+     Cada paleta define a sua sem tocar em uma linha de código.        */
+  --tom-1:#171a20;
+  --tom-2:#171a20;
+  --tom-3:#171a20;
+  --tom-4:#171a20;
+  --ultramar:#2a35e0;
+  --azul-claro:#9aa6ff;
+  --claro:#ffffff;
+  --tinta-70:rgba(23,26,32,.70);
+  --tinta-45:rgba(23,26,32,.45);
+  --tinta-12:rgba(23,26,32,.13);
+  --claro-70:rgba(255,255,255,.72);
+
+  /* tipografia */
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --texto:'Inter',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  /* medida */
+  --margem:clamp(20px,5vw,88px);
+  --limite:1440px;
+  --raio:14px;
+  --raio-p:8px;
+
+  /* movimento: uma curva só no site inteiro */
+  --curva:cubic-bezier(.16,1,.3,1);
+  --dur:.75s;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--marfim);color:var(--tinta);
+  font-family:var(--texto);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:.95;letter-spacing:-.03em;margin:0}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0}
+
+.pular{position:absolute;left:-9999px;top:0;background:var(--tinta);color:var(--claro);padding:12px 20px;z-index:300}
+.pular:focus{left:8px;top:8px}
+:focus-visible{outline:2px solid var(--ultramar);outline-offset:3px;border-radius:4px}
+
+/* ── olho de seção ─────────────────────────────────────── */
+.olho{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--tinta-45);
+  display:flex;align-items:center;gap:14px;
+}
+.olho::after{content:"";height:1px;flex:0 0 56px;background:var(--tinta-12)}
+/* título de seção grifado: pastilha lilás com o verde por cima.
+   O lima daria 1,55:1 sobre o lilás — ilegível. Este verde fechado
+   dá 4,13:1, e continua sendo verde.                            */
+.titulo-grifado{
+  display:inline-block;background:var(--lilas);color:#35591a;
+  font-family:var(--display);font-weight:700;letter-spacing:-.02em;
+  font-size:clamp(20px,2.3vw,29px);line-height:1;padding:8px 15px 10px;border-radius:3px
+}
+
+/* o Sobre não leva pastilha: só a palavra, em verde. No marfim o lima
+   dá 1,12:1, então aqui ele vem fechado — nas versões escuras o token
+   volta a ser o lima.                                             */
+/* CASES e SOBRE MIM são pares: mesmo tratamento, caixa alta, sem
+   pastilha. No marfim "branco" seria invisível, então o token entrega
+   grafite ali e branco onde o fundo é escuro.                       */
+.projetos .titulo-grifado,
+.sobre .titulo-grifado{
+  background:none;padding:0;color:var(--titulo-cases);
+  text-transform:uppercase;letter-spacing:-.03em;
+  font-size:clamp(26px,3vw,42px)
+}
+
+.olho-claro{color:rgba(252,251,248,.72)}      /* vive só sobre ameixa e cobalto */
+.olho-claro::after{background:rgba(252,251,248,.5)}
+.tracinho{display:inline-block;width:40px;height:1px;background:currentColor;opacity:.5}
+
+/* ── cabeçalho ─────────────────────────────────────────── */
+.cabecalho{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:32px;
+  padding:18px var(--margem);
+  background:rgba(245,241,232,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s
+}
+.cabecalho.rolado{border-bottom-color:var(--tinta-12)}
+/* a marca em duas linhas, na mesma tipografia: YARA grande e WORK
+   miúdo e espaçado por baixo, como no brandbook.                  */
+.marca{display:grid;gap:1px;line-height:1}
+.marca-nome{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.045em;text-transform:uppercase}
+.marca-sub{font-family:var(--display);font-weight:500;font-size:9.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--tinta-45);padding-left:2px}
+.asterisco{color:var(--lima)}
+.navegacao{display:flex;gap:26px;margin-left:auto;font-size:15px}
+}
+.navegacao a{position:relative;padding:4px 0;color:var(--tinta-70);transition:color .2s}
+.navegacao a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--lima);transition:width .3s var(--curva)}
+.navegacao a:hover{color:var(--tinta)}
+.navegacao a:hover::after{width:100%}
+
+/* ── hero ────────────────────────────────────────────────
+   A capa antiga saiu do HTML; estas regras ficam para o caso de
+   você querer aquela seção de volta em outro lugar do site.     */
+.hero{
+  max-width:var(--limite);margin:0 auto;
+  padding:clamp(48px,8vw,104px) var(--margem) clamp(40px,6vw,80px);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+  gap:clamp(24px,5vw,72px);align-items:center;
+}
+.hero-titulo{
+  font-size:clamp(33px,4.6vw,66px);text-transform:uppercase;
+  margin:22px 0 0;max-width:13ch;
+}
+.hero-titulo .linha{display:block}
+.hero-titulo .destaque{
+  color:var(--ultramar);font-style:italic;font-weight:600;
+  text-transform:none;letter-spacing:-.04em;
+}
+.sublinhado{position:relative;white-space:nowrap}
+.sublinhado::after{
+  content:"";position:absolute;left:-2%;right:-2%;bottom:.06em;height:.16em;
+  background:var(--lima);z-index:-1;border-radius:99px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 1s var(--curva) .5s
+}
+.revelado .sublinhado::after{transform:scaleX(1)}
+.sublinhado-claro::after{background:var(--lima);opacity:.9}
+.hero-bio{max-width:42ch;margin-top:24px;color:var(--tinta-70);font-family:var(--mono);font-size:15px;line-height:1.7}
+.hero-bio strong{color:var(--tinta);font-weight:500}
+.hero-acoes{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:32px}
+
+/* o que eu faço — duas fileiras, cada uma na cor da sua frente */
+.habilidades{margin:26px 0 0;display:grid;gap:12px}
+.habilidade-linha{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.habilidade-linha dt{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--tinta-45);flex:0 0 auto;min-width:9.5em
+}
+.habilidade-linha dd{margin:0;display:flex;flex-wrap:wrap;gap:7px}
+.habilidade-linha dd span{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 13px;border-radius:99px;font-size:13.5px;line-height:1.3;
+  border:1px solid var(--cor-frente);
+  background:color-mix(in srgb,var(--cor-frente) 12%,transparent);
+  transition:background .25s,transform .25s var(--curva)
+}
+.habilidade-linha dd span:hover{background:color-mix(in srgb,var(--cor-frente) 24%,transparent);transform:translateY(-2px)}
+.habilidades .cat-marketing{--cor-frente:var(--marketing)}
+.habilidades .cat-dados{--cor-frente:var(--ultramar)}
+
+.botao{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:15px 26px;border-radius:99px;font-size:15px;font-weight:600;
+  border:1.5px solid var(--tinta);transition:transform .3s var(--curva),background .25s,color .25s
+}
+.botao-solido{background:var(--tinta);color:var(--marfim)}
+.botao:hover{transform:translateY(-3px)}
+.seta{display:inline-block;transition:transform .3s var(--curva)}
+.botao:hover .seta,.link-seta:hover .seta{transform:translateX(5px)}
+
+.link-seta{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.04em;
+  border-bottom:1px solid currentColor;padding-bottom:3px
+}
+
+/* ── colagem do hero ───────────────────────────────────── */
+.hero-colagem{position:relative;min-height:clamp(340px,44vw,520px)}
+.bloco-cor{position:absolute;border-radius:2px}
+.bloco-azul{inset:14% 26% 22% 8%;background:var(--ultramar)}
+.bloco-lima{width:26%;aspect-ratio:1;right:8%;bottom:10%;background:var(--lima)}
+.retrato{margin:0;position:absolute;inset:4% 16% 6% 18%;overflow:hidden;border-radius:2px;filter:grayscale(1) contrast(1.08)}
+.retrato img{width:100%;height:100%;object-fit:cover}
+.retrato figcaption{display:none}
+.retrato.vazio{
+  background:repeating-linear-gradient(45deg,var(--marfim-fundo),var(--marfim-fundo) 9px,transparent 9px,transparent 18px);
+  border:1px dashed var(--tinta-12);filter:none;
+  display:grid;place-items:center
+}
+.retrato.vazio img{display:none}
+.retrato.vazio figcaption{display:block;font-family:var(--mono);font-size:11px;color:var(--tinta-45)}
+
+.flutua{position:absolute;box-shadow:0 18px 44px rgba(21,26,36,.13)}
+.cartao-metrica{
+  top:2%;right:2%;background:var(--claro);border-radius:var(--raio-p);
+  padding:14px 18px;display:grid;gap:2px;min-width:132px
+}
+.cartao-metrica .rotulo{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-45)}
+.cartao-metrica .numero{font-family:var(--display);font-size:29px;line-height:1}
+.cartao-metrica .delta{font-family:var(--mono);font-size:12px;color:#2f8f4e}
+.cartao-codigo{
+  right:-2%;top:33%;background:var(--tinta);color:var(--marfim);
+  border-radius:var(--raio-p);padding:14px 16px;max-width:290px;overflow:auto
+}
+.cartao-codigo pre{margin:0}
+.cartao-codigo code,.faixa-codigo code{font-family:var(--mono);font-size:11.5px;line-height:1.65;white-space:pre}
+.tk-a{color:var(--lima)}.tk-b{color:var(--azul-claro)}.tk-c{color:var(--lima)}
+.recado{
+  left:-3%;top:6%;background:var(--lima);color:var(--tinta);
+  padding:13px 16px;max-width:165px;font-family:var(--mono);font-size:12.5px;line-height:1.45;
+  transform:rotate(-4deg);border-radius:2px
+}
+.marca-asterisco{left:46%;top:-2%;font-size:42px;color:var(--lima);box-shadow:none;line-height:1}
+
+/* ── letreiro ──────────────────────────────────────────── */
+/* O escuro do site tem uma regra: ele aparece quando a Yara fala em
+   primeira pessoa. Letreiro, declaração e contato são a mesma voz, e
+   por isso partilham o mesmo grafite. O resto do site é marfim.       */
+.letreiro{overflow:hidden;border:0;border-bottom:1px solid var(--linha-banda);padding:15px 0;background:var(--tinta)}
+.letreiro-trilha{display:flex;gap:26px;width:max-content;animation:desliza 15s linear infinite}
+.letreiro-trilha span{font-family:var(--display);font-size:clamp(20px,2.6vw,32px);text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap;color:var(--marfim)}
+.letreiro-trilha .refrao{color:var(--lima);text-transform:none;font-style:italic;font-weight:500;letter-spacing:-.01em}
+.letreiro-trilha i{color:var(--lima);font-style:normal;font-size:clamp(15px,1.9vw,23px);align-self:center}
+@keyframes desliza{to{transform:translateX(-33.333%)}}
+.letreiro:hover .letreiro-trilha{animation-play-state:paused}
+
+/* ── duas frentes ──────────────────────────────────────── */
+.frentes{display:grid;grid-template-columns:1fr 1fr}
+.frente{position:relative;overflow:hidden;padding:clamp(40px,6vw,86px) clamp(26px,4vw,64px) clamp(56px,7vw,96px)}
+/* Os dois blocos são as âncoras do site: violeta escuro e ultramar, iguais
+   no tema claro e no escuro. Por isso o texto sobre eles é cravado em
+   claro — se invertesse junto, sumiria.                               */
+.frente-marketing{background:var(--marketing);color:#fcfbf8}
+.frente-dados{background:var(--ultramar);color:#fcfbf8}
+.frente h2{font-size:clamp(32px,4.4vw,60px);margin:22px 0 0}
+.frente-texto{margin-top:20px;max-width:34ch;font-size:15.5px;opacity:.85}
+.frente .link-seta{margin-top:30px;color:var(--lima);border-bottom-color:rgba(201,237,99,.5)}
+.frente .link-seta:hover{border-bottom-color:var(--lima)}
+.frente .tracinho{background:var(--lima);opacity:1}
+.frente-numero{color:var(--lima)}
+.frente-numero{
+  position:absolute;right:-.04em;bottom:-.34em;margin:0;
+  font-family:var(--display);font-weight:700;font-size:clamp(150px,22vw,300px);
+  line-height:.8;opacity:.11;pointer-events:none
+}
+.frente-dados .frente-texto{opacity:.9}
+
+
+.encontro{grid-column:1/-1;border-top:1px solid var(--linha-banda);background:var(--tinta);color:var(--marfim);padding:clamp(20px,2.4vw,32px) var(--margem)}
+.encontro-texto{
+  max-width:var(--limite);margin:0 auto;
+  font-family:var(--display);font-size:clamp(15px,1.7vw,23px);font-weight:500;
+  line-height:1.45;letter-spacing:-.01em
+}
+/* as duas palavras da frase saem nas cores das duas frentes: a escolha
+   fica visível antes de ser lida.                                     */
+.encontro-texto .e-mkt{color:var(--marketing);font-weight:600}
+.encontro-texto .e-prog{font-weight:600}
+.encontro-texto .e-sorriso{color:var(--ultramar)}
+.encontro-marca{color:var(--lima);margin-right:10px;font-size:.85em}
+
+/* ── projetos ──────────────────────────────────────────── */
+.projetos{max-width:var(--limite);margin:0 auto;padding:clamp(56px,8vw,112px) var(--margem)}
+.secao-topo{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+/* Os projetos viraram tira horizontal, como os depoimentos: uma grade
+   de cinco cartões ocupava duas telas de altura e empurrava o resto da
+   página para longe. O gesto agora é o mesmo nas duas seções.        */
+.proj-barra{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px}
+.grade-projetos{
+  display:flex;gap:clamp(16px,2.2vw,24px);overflow-x:auto;scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;padding-bottom:8px;
+  scrollbar-width:none;-ms-overflow-style:none
+}
+.grade-projetos::-webkit-scrollbar{display:none}
+.projeto{flex:0 0 clamp(250px,30%,330px);scroll-snap-align:start}
+.projeto{
+  background:var(--claro);border:1px solid var(--tinta-12);border-radius:var(--raio);
+  padding:14px 14px 20px;display:flex;flex-direction:column;gap:9px;
+  transition:transform .45s var(--curva),box-shadow .45s var(--curva),border-color .3s
+}
+.projeto:hover{transform:translateY(-8px);box-shadow:0 26px 54px rgba(21,26,36,.12);border-color:transparent}
+.projeto-capa{position:relative;aspect-ratio:4/3;border-radius:var(--raio-p);overflow:hidden;background:var(--marfim-fundo)}
+.projeto-capa img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--curva)}
+.projeto:hover .projeto-capa img{transform:scale(1.06)}
+.projeto-capa.vazio{background:repeating-linear-gradient(45deg,var(--marfim-fundo),var(--marfim-fundo) 9px,transparent 9px,transparent 18px);border:1px dashed var(--tinta-12)}
+.projeto-capa.vazio img{display:none}
+.projeto-num{
+  position:absolute;top:9px;right:11px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;color:var(--tinta-45);background:var(--marfim);
+  padding:3px 8px;border-radius:99px
+}
+.projeto-cat{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-45);margin-top:4px}
+.ponto{width:9px;height:9px;border-radius:50%;flex:none}
+.cat-marketing .ponto{background:var(--titulo-cases)}
+.cat-dados .ponto{background:var(--lima)}
+.cat-crm .ponto{background:var(--ultramar)}
+.cat-experimental .ponto{background:var(--tinta-45)}
+.projeto h3{font-size:20px;letter-spacing:-.02em;line-height:1.15}
+.projeto-desc{font-size:14.5px;color:var(--tinta-70);line-height:1.55}
+.projeto-meta{
+  font-family:var(--mono);font-size:11.5px;color:var(--tinta-45);line-height:1.5;
+  max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .45s var(--curva),opacity .35s
+}
+.projeto:hover .projeto-meta,.projeto:focus-within .projeto-meta{max-height:70px;opacity:1}
+.projeto-resultado{color:var(--tinta);font-weight:500}
+.projeto .link-seta{margin-top:auto;align-self:flex-start;font-size:12.5px}
+
+/* ── sobre ─────────────────────────────────────────────── */
+.sobre{max-width:var(--limite);margin:0 auto;padding:clamp(40px,6vw,80px) var(--margem) clamp(56px,8vw,104px)}
+/* a linha tem altura fixa: assim o Sobre ocupa menos que a faixa de
+   cases, em vez de a foto ditar o tamanho da seção.               */
+/* com a história em três parágrafos, é o texto que dita a altura da
+   linha; a foto estica junto (align-items:stretch) e nunca fica menor
+   que o mínimo abaixo.                                              */
+.sobre-grade{
+  display:grid;grid-template-columns:3fr 7fr;
+  grid-auto-rows:auto;
+  gap:clamp(18px,2.4vw,34px);margin-top:clamp(14px,1.6vw,22px);align-items:stretch
+}
+
+
+
+
+
+
+
+
+
+/* ── contato ───────────────────────────────────────────── */
+/* uma respiração entre ouvir os outros e falar comigo: filete que
+   atravessa a página com o asterisco no meio. Sem ela, o depoimento
+   encosta no contato e os dois viram um bloco só.                   */
+.divisoria{
+  max-width:var(--limite);margin:0 auto;padding:clamp(40px,6vw,84px) var(--margem);
+  display:flex;align-items:center;gap:clamp(18px,3vw,38px)
+}
+.divisoria::before,.divisoria::after{content:"";flex:1;height:1px;background:var(--tinta-12)}
+.divisoria-marca{
+  font-size:20px;color:var(--marketing);line-height:1;flex:none
+}
+
+.contato{background:var(--tinta);color:var(--marfim);padding:clamp(48px,7vw,96px) var(--margem)}
+.contato-grade{max-width:var(--limite);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:clamp(24px,4vw,60px);align-items:center}
+.contato-marca{font-size:40px;color:var(--lima);margin:0 0 10px}
+.contato h2{font-size:clamp(36px,5.4vw,76px)}
+.contato-texto p{color:var(--claro-70);max-width:34ch}
+.contato-links{margin-top:26px;display:grid;gap:13px}
+.contato-links a{display:inline-flex;align-items:center;gap:13px;font-size:16px;transition:color .2s}
+.contato-links a:hover{color:var(--verde-link);border-bottom-color:var(--verde-link)}
+/* o envelope é o único ícone figurativo dos três: ele pede mais corpo
+   que as duas siglas para ficar do mesmo peso visual.              */
+.contato-icone{
+  width:44px;height:44px;display:grid;place-items:center;flex:none;
+  border:1px solid rgba(255,255,255,.22);border-radius:8px;
+  font-family:var(--mono);font-size:14px;line-height:1
+}
+.contato-links li:first-child .contato-icone{font-size:26px}
+/* o bloquinho do fim: mesma pastilha lima inclinada de sempre, agora com
+   a consulta dentro. O código é o último gesto da página.             */
+.recado-contato{
+  margin:0;background:var(--lima);color:#171a20;padding:18px 22px;max-width:270px;
+  transform:rotate(-2.5deg);border-radius:2px;overflow:auto
+}
+.recado-contato code{
+  font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre;display:block
+}
+.recado-contato b{font-weight:600}
+
+/* ── rodapé ────────────────────────────────────────────── */
+.rodape{
+  max-width:var(--limite);margin:0 auto;padding:26px var(--margem);
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:12px;color:var(--tinta-45)
+}
+.rodape-links{display:flex;gap:22px}
+.rodape-links a:hover{color:var(--tinta)}
+
+/* ── revelação ao rolar ────────────────────────────────── */
+[data-revela]{opacity:0;transform:translateY(26px);transition:opacity .7s var(--curva),transform var(--dur) var(--curva)}
+[data-revela].revelado{opacity:1;transform:none}
+
+
+/* ── certificados: o registro formal ────────────────────────
+   Lista, não medalhas. Selo de curso em cartãozinho colorido é o
+   visual que mais aproxima um portfólio de um currículo — e a
+   linha do tempo logo acima já conta a história com mais força. */
+/* ~90px no desktop: os accordions continuam a mesma seção. */
+.certificados{margin-top:clamp(52px,7vw,92px)}
+/* a linha inteira é o botão. No hover ela se acende por inteiro — filete,
+   título e sinal — em vez de só deslizar, para ficar claro que o alvo é a
+   faixa e não o "+".                                                  */
+.cert-topo{
+  width:100%;cursor:pointer;display:flex;align-items:center;gap:18px;
+  padding:16px 0;border-top:1px solid var(--tinta-12);
+  transition:padding-left .35s var(--curva),border-color .3s
+}
+.cert-topo:hover,.cert-topo:focus-visible{padding-left:8px;border-top-color:var(--lilas)}
+.cert-topo:hover .olho,.cert-topo:focus-visible .olho{color:var(--lilas)}
+.cert-topo:hover .cert-sinal::before,.cert-topo:hover .cert-sinal::after{background:var(--lilas)}
+/* sem o filete ao lado: o botão inteiro já é a linha, e a régua
+   duplicava o gesto.                                            */
+.cert-topo .olho{flex:1;color:var(--titulo-cases)}
+.cert-topo .olho::after{display:none}
+.cert-sinal{position:relative;width:12px;height:12px;flex:none}
+.cert-sinal::before,.cert-sinal::after{
+  content:"";position:absolute;left:0;top:50%;width:12px;height:1.5px;background:var(--tinta-45);
+  transform:translateY(-50%);transition:transform .5s var(--curva),opacity .35s,background .3s
+}
+/* o + gira um quarto de volta ao virar −: a rotação conta a mudança  */
+.cert-topo[aria-expanded="true"] .cert-sinal::before{transform:translateY(-50%) rotate(180deg)}
+.cert-sinal::after{transform:translateY(-50%) rotate(90deg)}
+.cert-topo[aria-expanded="true"] .cert-sinal::after{transform:translateY(-50%) rotate(0);opacity:0}
+.cert-painel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--curva)}
+.cert-topo[aria-expanded="true"] + .cert-painel{grid-template-rows:1fr}
+.cert-dentro{overflow:hidden}
+.lista-cert{border-top:1px solid var(--tinta-12)}
+.lista-cert li{
+  display:grid;grid-template-columns:minmax(74px,.5fr) minmax(0,3fr) minmax(0,1.6fr) auto;
+  gap:clamp(14px,3vw,40px);align-items:baseline;
+  padding:18px 0;border-bottom:1px solid var(--tinta-12);
+  transition:padding-left .4s var(--curva)
+}
+.lista-cert li:hover{padding-left:12px}
+.cert-ano{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-45)}
+.cert-nome{font-family:var(--display);font-size:clamp(17px,1.9vw,23px);font-weight:600;letter-spacing:-.02em}
+.cert-org{font-size:15px;color:var(--tinta-70)}
+.cert-link{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tinta-45);border-bottom:1px solid transparent;padding-bottom:3px;
+  transition:color .25s,border-color .25s
+}
+.lista-cert li:hover .cert-link{color:var(--ultramar);border-bottom-color:var(--ultramar)}
+.cert-link:hover .seta{transform:translateX(4px)}
+
+/* ── depoimentos ────────────────────────────────────────────
+   Sem foto, sem estrelinha, sem cartão com sombra: o que sustenta
+   um depoimento é a frase e quem assina. O resto é enfeite que
+   faz parecer template de landing page.                       */
+.dep-convite{
+  margin-top:clamp(30px,4vw,52px);padding-top:20px;border-top:1px solid var(--tinta-12);
+  font-family:var(--mono);font-size:13px;color:var(--tinta-45)
+}
+.dep-convite a{color:var(--tinta);border-bottom:1px solid var(--tinta-12);padding-bottom:2px;transition:border-color .3s}
+.dep-convite a:hover{border-bottom-color:var(--tinta)}
+.dep-convite a:hover .seta{transform:translateX(4px)}
+
+@media (max-width:760px){
+  .lista-cert li{grid-template-columns:1fr auto;gap:4px 16px}
+  .cert-ano{grid-column:1/-1}
+  .cert-org{grid-column:1/-1}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACRÉSCIMOS — só o que você pediu nesta rodada.
+   Está tudo junto aqui de propósito: apagar este bloco devolve
+   o site ao estado anterior, sem mexer em mais nada.
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1 ─ as etiquetas viram checklist: o ponto virou marca de conferido */
+.habilidade-linha dd span::before{
+  content:"";flex:none;width:13px;height:13px;
+  border:1.5px solid var(--cor-frente);border-radius:3px;
+  background:
+    linear-gradient(45deg,transparent 46%,var(--cor-frente) 46%,var(--cor-frente) 60%,transparent 60%) 2px 1px/8px 8px no-repeat,
+    linear-gradient(-45deg,transparent 46%,var(--cor-frente) 46%,var(--cor-frente) 60%,transparent 60%) -1px 1px/8px 8px no-repeat
+}
+
+/* 2 ─ a capa
+
+   O motion aqui não é "trocar palavra": é UMA TIRA presa ao scroll.
+   O JS põe cada palavra em translateY(offset%) calculado a partir do
+   progresso contínuo — então elas andam junto com o dedo, param no
+   meio se você parar no meio, e voltam se você subir. É essa ligação
+   direta com o gesto que separa scroll-driven de animação disparada.
+   Nada aqui tem transição de tempo, de propósito: quem cronometra é
+   a rolagem.                                                        */
+.percurso{height:190vh;position:relative;background:var(--marfim)}
+/* O quadro fica no MEIO da tela presa, então quando ele é o último
+   sobra meia dobra de chão vazio embaixo antes do letreiro. A margem
+   negativa sobe o letreiro sem mexer na caixa da capa: ele começa a
+   aparecer só no último quinto, exatamente quando a piada chega.    */
+/* Quanto subir não é gosto: o conteúdo da capa é centrado, então o pé
+   dele fica em 50vh + metade da altura do bloco (~140px). O letreiro
+   precisa parar 40px abaixo disso — daí -50vh + 180px, que dá a mesma
+   folga em qualquer altura de tela. Com -30vh fixo, telas de 600 a 750
+   de altura tinham a legenda coberta pela faixa branca.
+   Os 290px saíram da medida: o pé da legenda fica 242px abaixo do meio
+   da tela, e sobra a folga.                                           */
+.percurso-capa{margin-bottom:min(0px,calc(-50vh + 290px))}
+.percurso-fixo{
+  position:sticky;top:0;height:100vh;padding:64px var(--margem) 0;
+  display:grid;align-content:center;justify-items:center;gap:clamp(18px,3vw,38px);
+  text-align:center
+}
+
+.percurso-palco{position:relative;width:100%;height:clamp(64px,11.5vw,158px);overflow:hidden}
+.etapa{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--display);font-weight:700;font-size:clamp(40px,9.6vw,134px);
+  letter-spacing:-.045em;line-height:1;color:var(--tom,var(--tinta));
+  will-change:transform,opacity
+}
+
+/* a quarta moldura é um aparte, não um título: corpo menor, peso menor */
+.etapa-piada{
+  font-size:clamp(21px,3.2vw,44px);font-weight:600;letter-spacing:-.025em;
+  color:var(--tinta);line-height:1.25;padding:0 4vw
+}
+.etapa-piada a{position:relative;white-space:nowrap}
+/* o ponto final vinha solto e caía sozinho na linha de baixo */
+.sem-quebra{white-space:nowrap}
+.etapa-piada .risco{
+  position:absolute;left:-1%;right:-1%;bottom:.04em;height:.14em;background:var(--lima);
+  z-index:-1;transform:scaleX(var(--p,0));transform-origin:left
+}
+.etapa-piada a:hover .risco{transform:scaleX(1)}
+
+.percurso-legenda{position:relative;height:18px;width:100%}
+.percurso-legenda li{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--tinta-45);
+  opacity:0;transition:opacity .35s var(--curva)
+}
+.percurso-legenda li.ativa{opacity:1}
+
+.percurso-role{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--tinta-45);
+  transition:opacity .4s
+}
+.role-linha{display:none}   /* substituído pela seta, abaixo */
+@keyframes respira{0%,100%{transform:scaleX(.35)}50%{transform:scaleX(1)}}
+
+/* ── a capa se explica ──────────────────────────────────────
+   Antes daqui a dica existia, mas ninguém via: 11px, caixa alta
+   espaçada, branco a 48%, e 152px ACIMA do fim da tela — flutuando
+   no vazio em vez de estar na borda onde se procura por ela. O
+   único movimento era um fio de 53x1px. Quem chegava via uma
+   palavra parada e não entendia que havia mais três.
+
+   Três mudanças, e a terceira é a que importa: ela usa o CONTEÚDO
+   como sinal em vez de acrescentar interface.                  */
+
+/* 1 · a dica vai para a borda de baixo e ganha corpo.
+   `fixed`, não `absolute`: no topo da página a capa presa começa
+   abaixo do cabeçalho, então o rodapé da caixa dela fica 70px fora
+   da tela — posicionada certinho, a dica caía embaixo da dobra.  */
+.percurso-capa .percurso-role{
+  position:fixed;left:50%;bottom:clamp(18px,3.2vh,34px);z-index:90;
+  transform:translateX(-50%);
+  flex-direction:column;gap:10px;
+  font-family:var(--texto);font-size:14px;font-weight:500;
+  letter-spacing:0;text-transform:none;color:var(--tinta-70);
+  transition:opacity .4s var(--curva),transform .4s var(--curva)
+}
+.percurso-capa .percurso-role.some{
+  opacity:0;transform:translateX(-50%) translateY(10px);pointer-events:none
+}
+
+/* 2 · o fio que esticava vira uma seta que desce. O fio era bonito
+   e não significava nada para quem chegava; a seta todo mundo lê. */
+.role-seta{
+  display:block;width:13px;height:13px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  animation:desce 1.9s ease-in-out infinite
+}
+@keyframes desce{
+  0%,100%{transform:rotate(45deg) translate(0,0);opacity:.5}
+  50%    {transform:rotate(45deg) translate(3px,3px);opacity:1}
+}
+
+/* 3 · a próxima palavra espia por baixo da atual.
+   O palco ganha uma faixa embaixo; as palavras continuam com a
+   altura de antes, presas ao topo, e é essa faixa que revela quem
+   vem. Com menos de ~30px só aparecem as pontas das minúsculas e
+   elas leem como riscos soltos — daí os 66px.                   */
+.percurso-capa .percurso-palco{
+  --h-etapa:clamp(64px,11.5vw,158px);
+  --espia:clamp(34px,4.6vw,66px);
+  height:calc(var(--h-etapa) + var(--espia))
+}
+.percurso-capa .etapa{bottom:auto;height:var(--h-etapa)}
+.espia{
+  position:absolute;left:0;right:0;top:0;height:var(--h-etapa);margin:0;
+  display:grid;place-items:start center;
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(40px,9.6vw,134px);letter-spacing:-.045em;line-height:1;
+  color:var(--tinta);opacity:0;pointer-events:none;
+  will-change:transform,opacity;
+  /* o corte reto da borda do palco fazia a fatia parecer um bloco
+     sólido; o esmaecido devolve a leitura de "continua escondido". */
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 6%,rgba(0,0,0,.35) 20%,transparent 34%);
+          mask-image:linear-gradient(to bottom,#000 0,#000 6%,rgba(0,0,0,.35) 20%,transparent 34%)
+}
+/* o quarto quadro é a piada, num corpo bem menor. O fantasma dela não
+   funciona: com 44px a frase inteira cabe na faixa e o esmaecido corta
+   a linha ao meio — lia como texto quebrado, não como "vem mais". A
+   piada chega sem espiar; o espaço vazio embaixo de "Estratégia" já
+   diz que a tira continua.                                          */
+.espia.espia-piada{display:none}
+
+/* 2b ─ filtro em dropdown
+   Com três opções, a fileira de pílulas ocupava a largura do título sem
+   precisar. Um gatilho só, que abre a lista, devolve o espaço e ainda diz
+   melhor qual recorte está ativo.                                       */
+.filtro-drop{position:relative}
+.filtro-gatilho{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  padding:10px 16px;border:1px solid var(--tinta-12);border-radius:99px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--tinta);
+  transition:border-color .25s,background .25s,color .25s
+}
+.filtro-gatilho:hover{border-color:var(--tinta)}
+.filtro-drop[data-aberto="true"] .filtro-gatilho{background:var(--tinta);border-color:var(--tinta);color:var(--marfim)}
+/* o ícone fica ao lado da caixa, não dentro: ele rotula o controle
+   em vez de disputar espaço com o rótulo do recorte ativo.        */
+.filtro-area{display:flex;align-items:center;gap:11px}
+.fg-icone{width:16px;height:16px;flex:none;color:var(--tinta-45)}
+.fg-n{font-size:10.5px;color:var(--tinta-45)}
+.filtro-drop[data-aberto="true"] .fg-n{color:var(--claro-70)}
+.fg-seta{
+  width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .35s var(--curva)
+}
+.filtro-drop[data-aberto="true"] .fg-seta{transform:rotate(225deg) translate(-2px,-2px)}
+
+.filtro-menu{
+  position:absolute;right:0;top:calc(100% + 8px);z-index:60;min-width:214px;
+  background:var(--claro);border:1px solid var(--tinta-12);border-radius:10px;padding:6px;
+  box-shadow:0 20px 44px rgba(23,26,32,.14);
+  opacity:0;transform:translateY(-6px);pointer-events:none;
+  transition:opacity .25s var(--curva),transform .3s var(--curva)
+}
+.filtro-drop[data-aberto="true"] .filtro-menu{opacity:1;transform:none;pointer-events:auto}
+.filtro{
+  width:100%;text-align:left;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:10px 12px;border-radius:7px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+  color:var(--tinta-70);transition:background .2s,color .2s
+}
+.filtro:hover{background:var(--marfim-fundo);color:var(--tinta)}
+.filtro.ativo{color:var(--tinta)}
+/* sem ✓: o botão já mostra o recorte ativo, e o item fica em tinta
+   cheia enquanto os outros ficam apagados.                      */
+.filtro.ativo{font-weight:500}
+.filtro-n{margin-left:auto;color:var(--tinta-45);font-size:10.5px}
+.filtro.ativo .filtro-n{margin-left:0}
+.filtro-aviso{font-family:var(--mono);font-size:12px;color:var(--tinta-45);min-height:18px;margin-bottom:12px}
+.projeto.oculto{display:none}
+.projeto.entrando{animation:entra .55s var(--curva) both}
+@keyframes entra{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* 2c ─ blog: vive numa página à parte, ainda não divulgada.
+   No menu ele entra com um selo "em breve", que some quando os
+   textos existirem.                                            */
+.nav-blog{display:inline-flex;align-items:center;gap:8px}
+.nav-selo{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tinta-45);border:1px solid var(--tinta-12);border-radius:99px;padding:2px 7px
+}
+.blog{max-width:var(--limite);margin:0 auto;padding:0 var(--margem) clamp(56px,8vw,104px)}
+.blog-pagina{padding-top:clamp(48px,7vw,92px)}
+.blog-titulo{font-size:clamp(32px,5vw,66px);margin:22px 0 0;max-width:16ch}
+.blog-nota{
+  margin-top:20px;font-family:var(--mono);font-size:12.5px;color:var(--tinta-45);
+  border-left:3px solid var(--lima);padding-left:16px;max-width:56ch;line-height:1.7
+}
+.blog-nota code{color:var(--tinta)}
+.grade-blog{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(22px,3vw,44px);margin-top:26px}
+.post{display:grid;gap:12px;align-content:start;border-top:1px solid var(--tinta-12);padding-top:22px;transition:border-color .35s}
+.post:hover{border-top-color:var(--ultramar)}
+.post-meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-45)}
+.post h3{font-size:clamp(20px,2.3vw,28px);letter-spacing:-.025em;line-height:1.16}
+.post-resumo{color:var(--tinta-70);font-size:15.5px;line-height:1.55}
+.post .link-seta{justify-self:start;margin-top:4px}
+
+/* 2d ─ depoimentos: tira horizontal, não seção fixa
+   A versão presa ao scroll obrigava a descer três telas para passar por
+   três frases curtas. Agora a seção tem altura normal, quem rola a página
+   segue em frente, e quem quer ler arrasta de lado.                    */
+.dep-topo{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:16px 0 18px}
+.dep-topo[hidden]{display:none}   /* escondida enquanto há um depoimento só */
+.dep-nota{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-45)}
+.dep-setas{display:flex;gap:8px;flex:none}
+.dep-seta{
+  width:38px;height:38px;border:1px solid var(--tinta-12);border-radius:99px;cursor:pointer;
+  display:grid;place-items:center;font-size:15px;color:var(--tinta-45);
+  transition:border-color .25s,color .25s,background .25s
+}
+.dep-seta:hover{border-color:var(--tinta);color:var(--tinta)}
+.dep-seta:disabled{opacity:.3;cursor:default}
+.dep-seta:disabled:hover{border-color:var(--tinta-12);color:var(--tinta-45)}
+
+.dep-tira{
+  display:flex;gap:clamp(16px,2.4vw,32px);overflow-x:auto;scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;padding-bottom:6px;
+  scrollbar-width:none;-ms-overflow-style:none
+}
+.dep-tira::-webkit-scrollbar{display:none}
+.dep{
+  flex:0 0 clamp(260px,42%,430px);scroll-snap-align:start;
+  display:grid;gap:18px;align-content:start;
+  border-top:2px solid var(--tinta);padding-top:22px
+}
+.dep:only-child{flex-basis:min(100%,720px)}   /* um depoimento só: ocupa mais espaço */
+.dep:nth-child(2){border-top-color:var(--marketing)}
+.dep:nth-child(3){border-top-color:var(--ultramar)}
+.dep blockquote{
+  margin:0;font-family:var(--display);font-size:clamp(16px,1.45vw,20px);font-weight:500;
+  letter-spacing:-.015em;line-height:1.4
+}
+.dep-autor{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--tinta);display:grid;gap:4px}
+.dep-autor span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-45)}
+.dep-convite{
+  margin-top:clamp(26px,3.4vw,44px);padding-top:18px;border-top:1px solid var(--tinta-12);
+  font-family:var(--mono);font-size:12.5px;color:var(--tinta-45)
+}
+.dep-convite a{color:var(--tinta);border-bottom:1px solid var(--tinta-12);padding-bottom:2px;transition:border-color .3s}
+.dep-convite a:hover{border-bottom-color:var(--tinta)}
+.dep-convite a:hover .seta{transform:translateX(4px)}
+
+/* 3 ─ cursor com a marca/* 3 ─ cursor com a marca, e com contexto
+
+   O ponteiro é o monograma Y. Ao encostar em algo clicável ele cresce
+   e vira coral; em alguns lugares abre um rótulo que diz o que aquilo
+   é. O humor mora aí: não é uma frase colada no ponteiro o tempo
+   inteiro, é uma resposta ao lugar.   */
+.cursor{display:none}
+@media (pointer:fine){
+  body.cursor-proprio,body.cursor-proprio *{cursor:none}
+  body.cursor-proprio .cursor{
+    display:flex;align-items:center;gap:9px;
+    /* acima de tudo, inclusive do modal de case (300): abaixo dele o
+       ponteiro de verdade está escondido e o nosso fica atrás do
+       overlay — a pessoa fica sem ponteiro nenhum dentro do case. */
+    position:fixed;left:0;top:0;z-index:400;pointer-events:none;white-space:nowrap
+  }
+  /* O monograma no lugar do asterisco. Letra não gira: girar um "Y."
+     vira rabisco. Ele cresce e troca de cor, que já basta para dizer
+     "isto responde ao clique".                                        */
+  .cursor-marca{
+    font-family:var(--display);font-weight:700;font-size:15px;line-height:1;
+    letter-spacing:-.05em;color:var(--ultramar);
+    transition:font-size .3s var(--curva),color .3s
+  }
+  .cursor.ativo .cursor-marca{color:var(--lima);font-size:22px}
+  /* sobre a pastilha lima o Y. sumiria: ali ele vira escuro */
+  .cursor.contraste .cursor-marca,
+  .cursor.contraste.ativo .cursor-marca{color:var(--tinta)}
+  .cursor-rotulo{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--tinta);background:var(--lima);padding:5px 10px;border-radius:99px;
+    max-width:0;overflow:hidden;opacity:0;padding-left:0;padding-right:0;
+    transition:max-width .4s var(--curva),opacity .25s,padding .3s var(--curva)
+  }
+  .cursor.com-rotulo .cursor-rotulo{max-width:360px;opacity:1;padding-left:10px;padding-right:10px}
+  .cursor.fora{opacity:0}
+}
+
+/* o bloco da história: largura limitada para não varrer a linha inteira,
+   cantos arredondados e o texto centrado na altura da foto.           */
+/* sem preenchimento: o texto respira ao lado da foto em vez de morar
+   dentro de um cartão. O alinhamento vertical continua sendo o que
+   amarra os dois.                                                  */
+.sobre-bloco{
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+  padding:0 0 0 clamp(4px,1vw,14px)
+}
+.sobre-bloco-rotulo{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--tinta-45)
+}
+.sobre-bloco-texto{
+  font-family:var(--display);font-size:clamp(18px,1.9vw,26px);font-weight:500;
+  letter-spacing:-.02em;line-height:1.34;max-width:46ch
+}
+/* a história em si: a frase de abertura fica em display, o resto em
+   texto corrido, com os pontos de virada em negrito. O fecho volta ao
+   display, separado por um filete, com o asterisco da capa.       */
+.sobre-corpo{
+  display:flex;flex-direction:column;gap:14px;max-width:64ch;
+  font-family:var(--texto);font-size:clamp(15px,1.15vw,17px);line-height:1.62;color:var(--tinta-70)
+}
+.sobre-corpo b{font-weight:600;color:var(--tinta)}
+.sobre-fecho{
+  display:flex;gap:12px;align-items:baseline;max-width:64ch;margin-top:4px;
+  padding-top:18px;border-top:1px solid var(--tinta-12);
+  font-family:var(--display);font-size:clamp(17px,1.4vw,21px);font-weight:500;
+  letter-spacing:-.015em;line-height:1.35
+}
+.sobre-fecho b{font-weight:700}
+.sobre-fecho-marca{color:var(--ultramar);flex:none;font-size:.85em}
+
+/* 4 ─ a foto volta, no Sobre */
+.sobre-foto{
+  margin:0;position:relative;overflow:hidden;height:100%;min-height:clamp(280px,30vw,400px);background:var(--marfim-fundo);
+  border-radius:var(--raio);filter:grayscale(1) contrast(1.06);
+  transition:filter .6s var(--curva)
+}
+.sobre-foto:hover{filter:grayscale(0) contrast(1.02)}
+/* o rosto fica no terço superior do recorte: a âncora mantém ele
+   enquadrado em qualquer proporção que a célula assuma.       */
+.sobre-foto img{width:100%;height:100%;object-fit:cover;object-position:50% 24%}
+.sobre-foto figcaption{display:none}
+.sobre-foto.vazio{filter:none;border:1px dashed var(--tinta-12);display:grid;place-items:center}
+.sobre-foto.vazio img{display:none}
+.sobre-foto.vazio figcaption{display:block;font-family:var(--mono);font-size:11px;color:var(--tinta-45)}
+
+/* 5 ─ notas escondidas nos números */
+
+
+
+/* 6 ─ botão de contato em três tempos */
+.botao-contato{
+  display:inline-flex;align-items:center;gap:12px;margin-top:30px;
+  border:1.5px solid rgba(255,255,255,.28);border-radius:99px;padding:15px 26px;
+  font-size:15px;font-weight:600;transition:border-color .3s,background .3s,color .3s
+}
+.botao-contato:hover{background:var(--lima);border-color:var(--lima);color:#171a20}
+.botao-contato:hover .seta{transform:translateX(5px)}
+.bc-texto{transition:opacity .2s}
+
+/* ── telas menores ─────────────────────────────────────── */
+@media (max-width:1000px){
+  .hero{grid-template-columns:1fr}
+  .hero-colagem{order:-1;min-height:330px}
+    .frentes{grid-template-columns:1fr}
+  .sobre-grade{grid-template-columns:1fr;grid-auto-rows:auto;gap:18px}
+  .sobre-foto{height:clamp(220px,34vw,300px);min-height:0}
+  .sobre-foto img{object-position:50% 5%} /* moldura baixa: sobe o enquadramento para não cortar o rosto */
+  .sobre-bloco{padding:26px 0 0}
+  
+  .contato-grade{grid-template-columns:1fr}
+  .recado-contato{justify-self:start}
+}
+@media (max-width:640px){
+  .sobre-foto{height:230px}
+  .sobre-bloco-texto{font-size:18px}
+  .percurso{height:165vh}
+  .percurso-legenda{height:30px}
+  .etapa-piada{padding:0}
+  .habilidade-linha{gap:7px}
+  .habilidade-linha dt{flex-basis:100%;min-width:0}
+  .navegacao{gap:16px;font-size:14px;overflow-x:auto}
+  .hero-titulo{font-size:clamp(30px,8.6vw,46px)}
+  .cartao-codigo{display:none}
+  .secao-topo{flex-direction:column;align-items:flex-start}
+    .projeto{flex-basis:82%}
+  .projeto-meta{max-height:none;opacity:1}
+}
+
+/* ── quem pediu menos movimento recebe menos movimento ── */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  [data-revela]{opacity:1;transform:none}
+  .sublinhado::after{transform:scaleX(1)}
+  .percurso{height:auto}
+  .percurso-capa{margin-bottom:0}
+  .percurso-fixo{position:static;height:auto;padding-block:70px}
+  .percurso-palco,.percurso-legenda{height:auto;display:grid;gap:10px;overflow:visible}
+  .etapa,.percurso-legenda li{position:static;opacity:1!important;transform:none!important}
+  .etapa-piada .risco{transform:scaleX(1)}
+  /* sem rolagem presa a capa vira lista: a seta e o fantasma não
+     têm o que anunciar, e a dica volta para o fluxo.            */
+  .espia{display:none}
+  .role-seta{animation:none}
+  .percurso-capa .percurso-role{position:static;transform:none}
+  .percurso-capa .percurso-palco,.percurso-capa .etapa{height:auto}
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   O CASE ABRE NA MESMA PÁGINA
+
+   Cada cartão guarda o case inteiro num <template>, que não é
+   renderizado e não pesa nada; o modal clona na hora de abrir.
+   Case não tem página própria de propósito: sair da lista para
+   ler um case é perder o lugar onde se estava.
+
+   Só tokens aqui — o painel usa o chão e a tinta da paleta que
+   estiver no ar, então ele é claro no tema claro e escuro nos
+   outros três, sem uma linha por variação.
+   ═══════════════════════════════════════════════════════════ */
+.projeto-abrir{cursor:pointer;background:none;border:0;padding:0;font:inherit;text-align:left}
+.projeto{cursor:pointer}
+
+.modal-case,.modal-cert{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:clamp(10px,3vw,42px)}
+.modal-case[hidden],.modal-cert[hidden]{display:none}
+.mc-fundo{
+  position:absolute;inset:0;background:rgba(6,4,16,.66);
+  opacity:0;transition:opacity .3s var(--curva)
+}
+.modal-case.aberto .mc-fundo,.modal-cert.aberto .mc-fundo{opacity:1}
+
+/* certificado: só a imagem, no maior tamanho que couber, com o X
+   flutuando no canto e o nome do curso embaixo.                  */
+.cert-quadro{
+  position:relative;margin:0;display:grid;justify-items:center;gap:14px;
+  max-width:min(1000px,100%);max-height:100%;
+  opacity:0;transform:translateY(16px) scale(.99);
+  transition:opacity .3s var(--curva),transform .38s var(--curva)
+}
+.modal-cert.aberto .cert-quadro{opacity:1;transform:none}
+.cert-imagem{
+  display:block;max-width:100%;max-height:calc(100vh - clamp(20px,6vw,84px) - 44px);
+  width:auto;height:auto;border-radius:6px;background:#fff;
+  box-shadow:0 40px 90px rgba(6,4,16,.5)
+}
+.cert-titulo{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.72);text-align:center}
+.modal-cert .cert-fechar{position:absolute;top:-14px;right:-14px;margin:0;background:var(--marfim);z-index:1}
+@media (max-width:640px){.modal-cert .cert-fechar{top:-8px;right:-8px}}
+
+.mc-painel{
+  position:relative;width:min(880px,100%);max-height:min(88vh,1000px);overflow:auto;
+  background:var(--marfim);color:var(--tinta);
+  border:1px solid var(--tinta-12);border-radius:var(--raio);
+  box-shadow:0 40px 90px rgba(6,4,16,.5);
+  opacity:0;transform:translateY(16px) scale(.99);
+  transition:opacity .3s var(--curva),transform .38s var(--curva);
+  scrollbar-width:thin
+}
+.modal-case.aberto .mc-painel{opacity:1;transform:none}
+
+/* o X acompanha a rolagem: num texto longo, ter de voltar ao topo
+   para fechar é o tipo de atrito que faz clicar fora por engano. */
+.mc-cabeca{
+  position:sticky;top:0;z-index:2;background:var(--marfim);
+  display:flex;align-items:flex-start;gap:20px;
+  padding:clamp(22px,3vw,34px) clamp(20px,3.4vw,44px) 18px;
+  border-bottom:1px solid var(--tinta-12)
+}
+.mc-selo{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--tinta-45);margin:0 0 8px
+}
+.mc-titulo{font-size:clamp(23px,3vw,38px);letter-spacing:-.03em;line-height:1.08;margin:0}
+.mc-fechar{
+  margin-left:auto;flex:none;width:var(--control-h,40px);height:var(--control-h,40px);
+  display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--tinta-12);border-radius:99px;color:var(--tinta);background:none;
+  transition:border-color .25s,background .25s,color .25s
+}
+.mc-fechar:hover{background:var(--lima);border-color:var(--lima);color:#1a1330}
+
+.mc-corpo{padding:clamp(22px,3vw,34px) clamp(20px,3.4vw,44px) clamp(30px,4vw,50px)}
+.mc-corpo h4{
+  font-family:var(--display);font-size:clamp(15px,1.6vw,18px);font-weight:600;
+  letter-spacing:.02em;text-transform:uppercase;color:var(--tinta-45);
+  margin:30px 0 10px;padding-top:18px;border-top:1px solid var(--tinta-12)
+}
+.mc-corpo h4:first-child{margin-top:0;padding-top:0;border-top:0}
+.mc-corpo p{margin:0 0 12px;color:var(--tinta-70);font-size:15.5px;line-height:1.62;max-width:66ch}
+/* o reset do site tira o marcador de toda lista; aqui ele volta,
+   porque uma lista de responsabilidades sem marcador vira bloco. */
+.mc-corpo ul{margin:0 0 12px;padding-left:22px;list-style:disc;color:var(--tinta-70);font-size:15.5px;line-height:1.62;max-width:66ch}
+.mc-corpo li::marker{color:var(--tinta-45)}
+.mc-corpo li{margin-bottom:9px}
+.mc-corpo b{color:var(--tinta);font-weight:600}
+.mc-corpo code{font-family:var(--mono);font-size:.88em;color:var(--tinta)}
+
+/* os números na frente do texto: é o que responde “deu certo?” antes
+   de a pessoa decidir se vai ler os oito parágrafos.               */
+.case-numeros{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:clamp(14px,2vw,26px);margin-bottom:8px
+}
+.case-numeros .cn{display:grid;gap:4px;align-content:start}
+.case-numeros b{
+  font-family:var(--display);font-size:clamp(24px,3.2vw,36px);font-weight:700;
+  letter-spacing:-.035em;line-height:1;color:var(--tinta)
+}
+.case-numeros span{font-size:13px;color:var(--tinta-45);line-height:1.35}
+
+/* a página inteira, do topo ao rodapé, antes dos números: quem abre o
+   case quer ver o que foi feito antes de ler como foi feito.        */
+.case-imagem{margin:0 0 clamp(22px,3vw,34px)}
+.case-imagem img{
+  display:block;width:100%;height:auto;
+  border-radius:var(--raio-p);border:1px solid var(--tinta-12)
+}
+
+/* vídeo do case: mesma moldura da imagem inteira. O poster é um quadro
+   do próprio filme, então nada carrega antes de a pessoa dar o play.  */
+.case-video{margin:0 0 clamp(22px,3vw,34px)}
+.case-video video{
+  display:block;width:100%;height:auto;aspect-ratio:16/9;
+  border-radius:var(--raio-p);border:1px solid var(--tinta-12);background:#000
+}
+
+/* galeria de páginas: uma LP por vez, com setas. Cada página é alta
+   demais para caber inteira, então o quadro rola por dentro — como
+   uma janela de navegador — e as setas ficam sempre à mão, em cima. */
+.case-galeria{margin:0 0 clamp(22px,3vw,34px)}
+.cg-barra{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.cg-legenda{margin:0;flex:1;min-width:0;font-size:14px;line-height:1.35;color:var(--tinta-70)}
+.cg-legenda b{display:block;color:var(--tinta);font-weight:600;font-size:15px}
+.cg-legenda span{color:var(--tinta-45)}
+.cg-pos{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--tinta-45);white-space:nowrap}
+/* .mc-corpo ul/li dá disco, recuo e 66ch a toda lista do case — aqui
+   a lista é só o trilho das páginas, então desfaz tudo isso.         */
+.mc-corpo .cg-tira{
+  list-style:none;margin:0;padding:0;max-width:none;
+  max-height:min(70vh,760px);overflow-y:auto;overscroll-behavior:contain;
+  border-radius:var(--raio-p);border:1px solid var(--tinta-12);background:var(--marfim-fundo)
+}
+.mc-corpo .cg-item{display:none;margin:0}
+.cg-item.ativo{display:block}
+.cg-item img{display:block;width:100%;height:auto}
+/* galeria compacta: imagens que não precisam de leitura (cards borrados) —
+   cabem na tela sem rolar e não ocupam a página inteira.                */
+.mc-corpo .cg-compacta .cg-tira{max-height:none;overflow:visible;padding:16px}
+.cg-compacta .cg-item img{width:auto;max-width:100%;max-height:min(40vh,360px);margin:0 auto}
+.mc-corpo .cg-nota{margin:10px 0 0;font-size:12.5px;line-height:1.4;color:var(--tinta-45);max-width:none}
+@media (max-width:600px){
+  .cg-barra{flex-wrap:wrap}
+  .cg-legenda{flex-basis:100%}
+}
+
+/* o que ainda falta você me confirmar fica MARCADO, não escondido:
+   um texto plausível no lugar de um dado que não existe é pior que
+   um buraco visível.                                              */
+.falta{
+  background:none;color:inherit;font-family:var(--mono);font-size:.86em;
+  border-bottom:2px dotted var(--lima);padding-bottom:1px;cursor:help
+}
+
+@media (max-width:640px){
+  .modal-case{padding:0}
+  .mc-painel{max-height:100vh;height:100%;width:100%;border-radius:0;border:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .mc-painel,.mc-fundo{transition:none}
+}
