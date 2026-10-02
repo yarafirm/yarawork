@@ -97,7 +97,7 @@
     var janela = fixo ? fixo.offsetHeight : window.innerHeight;
     var alvo = limite(-r.top / ((r.height - janela) || 1));
     if (suave && pAtual !== null) {
-      pAtual += (alvo - pAtual) * 0.22;
+      pAtual += (alvo - pAtual) * 0.32;
       if (Math.abs(alvo - pAtual) < 0.0015) pAtual = alvo;
     } else {
       pAtual = alvo;

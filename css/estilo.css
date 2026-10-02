@@ -895,7 +895,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 @media (max-width:640px){
   .sobre-foto{height:230px}
   .sobre-bloco-texto{font-size:18px}
-  .percurso{height:165vh;height:165svh}
+  .percurso{height:135vh;height:135svh}   /* menos dedo por palavra */
   .percurso-legenda{height:30px}
   .etapa-piada{padding:0}
   .habilidade-linha{gap:7px}
@@ -912,22 +912,28 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
   .filtro-menu{left:0;right:auto}
 }
 
-/* cases em telas menores: grade parada em vez de tira que desliza.
-   As setas somem e o cartão não levanta no toque. Fica depois das
-   regras da tira porque tem a mesma especificidade e precisa vencer. */
+/* cases em telas menores: tira que desliza com o dedo, sangrando até a
+   borda da tela para o cartão seguinte aparecer de canto (é o convite
+   para deslizar). Sem setas e sem o cartão levantar no toque. Fica depois
+   das regras da tira porque tem a mesma especificidade e precisa vencer. */
 @media (max-width:900px){
+  .percurso{height:150vh;height:150svh}   /* abaixo de 640 vale a regra de 135 (vem antes, então repete aqui) */
   .grade-projetos{
-    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
-    overflow:visible;scroll-snap-type:none;padding-bottom:0
+    gap:14px;margin:0 calc(-1 * var(--margem));padding:4px var(--margem) 10px;
+    scroll-padding-left:var(--margem);scroll-snap-type:x mandatory;
+    overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch
   }
-  .projeto{flex:none;width:auto;min-width:0}
+  .projeto{flex:0 0 min(46%,340px);scroll-snap-align:start;scroll-snap-stop:always}
   .projeto:hover{transform:none;box-shadow:none;border-color:var(--tinta-12)}
   .projeto:hover .projeto-capa img{transform:none}
   .projeto.entrando{animation:none}
+  .projeto-meta{max-height:none;opacity:1}   /* sem hover no toque, a linha de tecnologias fica sempre à vista */
   .proj-barra .dep-setas{display:none}
 }
 @media (max-width:640px){
-  .grade-projetos{grid-template-columns:1fr}
+  .percurso{height:135vh;height:135svh}
+  .projeto{flex-basis:min(80%,320px)}
+  .projeto-capa{aspect-ratio:4/3}
 }
 
 /* ── quem pediu menos movimento recebe menos movimento ── */
