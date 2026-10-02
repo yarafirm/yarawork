@@ -134,6 +134,30 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 .nav-idioma .idioma-sep{color:var(--tinta-45)}
 .nav-idioma a{color:var(--tinta-70);transition:color .2s}
 .nav-idioma a:hover{color:var(--lima)}
+/* menu em telas estreitas: o botão só existe até 900px; abaixo disso o
+   menu em linha não cabe (cortava em "Projetos" no celular) e vira uma
+   lista por baixo do cabeçalho, aberta pelo botão.                     */
+.nav-botao{
+  display:none;margin-left:auto;width:40px;height:40px;padding:0;
+  border:1px solid var(--tinta-12);border-radius:var(--raio-p);background:none;
+  cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px
+}
+.nav-botao span{display:block;width:18px;height:1.5px;background:var(--tinta);transition:transform .3s var(--curva),opacity .2s}
+.nav-botao[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-botao[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-botao[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+@media (max-width:900px){
+  .cabecalho{flex-wrap:wrap;gap:16px;padding-top:14px;padding-bottom:14px}
+  .nav-botao{display:flex}
+  .navegacao{
+    display:none;flex-basis:100%;flex-direction:column;align-items:flex-start;gap:2px;
+    margin:4px 0 2px;padding-top:10px;border-top:1px solid var(--tinta-12);font-size:17px
+  }
+  .cabecalho.menu-aberto .navegacao{display:flex}
+  .cabecalho.menu-aberto{border-bottom-color:var(--tinta-12)}
+  .navegacao a,.navegacao .nav-bloqueado{padding:10px 0;width:100%}
+  .navegacao a::after{display:none}
+}
 
 /* ── hero ────────────────────────────────────────────────
    A capa antiga saiu do HTML; estas regras ficam para o caso de
@@ -870,7 +894,6 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
   .etapa-piada{padding:0}
   .habilidade-linha{gap:7px}
   .habilidade-linha dt{flex-basis:100%;min-width:0}
-  .navegacao{gap:16px;font-size:14px;overflow-x:auto}
   .nav-idioma{margin-left:-16px;font-size:11px;padding:5px 9px}
   .hero-titulo{font-size:clamp(30px,8.6vw,46px)}
   .cartao-codigo{display:none}

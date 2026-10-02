@@ -139,6 +139,29 @@
     var marcar = function () { cabecalho.classList.toggle('rolado', window.scrollY > 8); };
     window.addEventListener('scroll', marcar, { passive: true });
     marcar();
+
+    /* menu do celular: o botão abre e fecha a lista; clicar num link,
+       apertar Esc ou alargar a janela fecha de novo.                   */
+    var botaoMenu = cabecalho.querySelector('.nav-botao');
+    var menu = cabecalho.querySelector('.navegacao');
+    if (botaoMenu && menu) {
+      var abrirMenu = function (aberto) {
+        cabecalho.classList.toggle('menu-aberto', aberto);
+        botaoMenu.setAttribute('aria-expanded', String(aberto));
+      };
+      botaoMenu.addEventListener('click', function () {
+        abrirMenu(botaoMenu.getAttribute('aria-expanded') !== 'true');
+      });
+      menu.addEventListener('click', function (e) {
+        if (e.target.closest('a')) abrirMenu(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') abrirMenu(false);
+      });
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 900) abrirMenu(false);
+      }, { passive: true });
+    }
   }
 
   /* 5 ─ filtro de projetos por frente ------------------------------------
