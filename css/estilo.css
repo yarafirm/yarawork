@@ -267,7 +267,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 /* O escuro do site tem uma regra: ele aparece quando a Yara fala em
    primeira pessoa. Letreiro, declaração e contato são a mesma voz, e
    por isso partilham o mesmo grafite. O resto do site é marfim.       */
-.letreiro{overflow:hidden;border:0;border-bottom:1px solid var(--linha-banda);padding:15px 0;background:var(--tinta)}
+/* position + z-index: a capa é position:relative e, sem isto, pintava por
+   cima do letreiro (a margem negativa da capa coloca a faixa dentro da
+   caixa dela), então a faixa branca aparecia sem nenhuma palavra.       */
+.letreiro{position:relative;z-index:1;overflow:hidden;border:0;border-bottom:1px solid var(--linha-banda);padding:15px 0;background:var(--tinta)}
 .letreiro-trilha{display:flex;gap:26px;width:max-content;animation:desliza 15s linear infinite}
 .letreiro-trilha span{font-family:var(--display);font-size:clamp(20px,2.6vw,32px);text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap;color:var(--marfim)}
 .letreiro-trilha .refrao{color:var(--lima);text-transform:none;font-style:italic;font-weight:500;letter-spacing:-.01em}
