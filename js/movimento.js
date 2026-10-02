@@ -62,6 +62,16 @@
      faixa em que a palavra de verdade ainda está com opacidade zero,
      então os dois nunca disputam o mesmo pixel.                     */
   var espia = document.querySelector('.espia');
+  var fixo = percurso ? percurso.querySelector('.percurso-fixo') : null;
+
+  /* No celular o scroll chega em saltos (o navegador avisa poucas vezes
+     por segundo enquanto o dedo arrasta, e a barra de endereço muda a
+     altura da tela no meio do caminho). Em vez de pular para a posição
+     nova, a tira CORRE até ela: cada quadro anda uma fração do que falta.
+     Ainda para onde o dedo parou, só que sem o degrau. No desktop, com
+     roda e trackpad, o mapeamento continua direto.                     */
+  var suave = window.matchMedia('(pointer:coarse)').matches;
+  var pAtual = null;
 
   // as paradas do degradê vêm do CSS (--tom-1 a --tom-4): trocar de paleta
   // não exige tocar aqui.
@@ -82,7 +92,17 @@
   function desenharPercurso() {
     if (!percurso || !etapas.length) return;
     var r = percurso.getBoundingClientRect();
-    var p = limite(-r.top / ((r.height - window.innerHeight) || 1));
+    // a altura do quadro preso, não a da janela: no celular a janela
+    // cresce e encolhe com a barra de endereço e as palavras pulavam.
+    var janela = fixo ? fixo.offsetHeight : window.innerHeight;
+    var alvo = limite(-r.top / ((r.height - janela) || 1));
+    if (suave && pAtual !== null) {
+      pAtual += (alvo - pAtual) * 0.22;
+      if (Math.abs(alvo - pAtual) < 0.0015) pAtual = alvo;
+    } else {
+      pAtual = alvo;
+    }
+    var p = pAtual;
 
     // posição contínua na tira: 0 = primeira palavra centrada, 1 = segunda…
     var pos = p * (etapas.length - 1);
@@ -117,20 +137,26 @@
     /* a dica some assim que a pessoa começa. Em 0,55 ela ficava na tela
        metade do percurso, quando já não dizia mais nada.               */
     if (role) role.classList.toggle('some', p > 0.06);
+    return pAtual !== alvo;            // ainda correndo atrás do dedo?
   }
 
   if (reduzido) {
     etapas.forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; });
     legendas.forEach(function (el) { el.classList.add('ativa'); });
   } else if (percurso) {
-    var aguardando = false;
-    window.addEventListener('scroll', function () {
-      if (aguardando) return;
-      aguardando = true;
-      requestAnimationFrame(function () { desenharPercurso(); aguardando = false; });
-    }, { passive: true });
-    window.addEventListener('resize', desenharPercurso, { passive: true });
-    desenharPercurso();
+    var animando = false;
+    var laco = function () {
+      if (desenharPercurso()) { requestAnimationFrame(laco); }
+      else { animando = false; }
+    };
+    var pedir = function () {
+      if (animando) return;
+      animando = true;
+      requestAnimationFrame(laco);
+    };
+    window.addEventListener('scroll', pedir, { passive: true });
+    window.addEventListener('resize', pedir, { passive: true });
+    pedir();
   }
 
   /* 4 ─ borda do cabeçalho ao sair do topo -------------------------------- */

@@ -529,7 +529,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
    direta com o gesto que separa scroll-driven de animação disparada.
    Nada aqui tem transição de tempo, de propósito: quem cronometra é
    a rolagem.                                                        */
-.percurso{height:190vh;position:relative;background:var(--marfim)}
+/* svh onde existe: a altura "pequena" da janela, que não muda quando a
+   barra de endereço do celular some. Com vh a seção crescia no meio da
+   rolagem e a tira dava um pulo.                                       */
+.percurso{height:190vh;height:190svh;position:relative;background:var(--marfim)}
 /* O quadro fica no MEIO da tela presa, então quando ele é o último
    sobra meia dobra de chão vazio embaixo antes do letreiro. A margem
    negativa sobe o letreiro sem mexer na caixa da capa: ele começa a
@@ -543,7 +546,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
    da tela, e sobra a folga.                                           */
 .percurso-capa{margin-bottom:min(0px,calc(-50vh + 290px))}
 .percurso-fixo{
-  position:sticky;top:0;height:100vh;padding:64px var(--margem) 0;
+  position:sticky;top:0;height:100vh;height:100svh;padding:64px var(--margem) 0;
   display:grid;align-content:center;justify-items:center;gap:clamp(18px,3vw,38px);
   text-align:center
 }
@@ -892,7 +895,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
 @media (max-width:640px){
   .sobre-foto{height:230px}
   .sobre-bloco-texto{font-size:18px}
-  .percurso{height:165vh}
+  .percurso{height:165vh;height:165svh}
   .percurso-legenda{height:30px}
   .etapa-piada{padding:0}
   .habilidade-linha{gap:7px}
