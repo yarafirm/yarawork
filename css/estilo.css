@@ -901,8 +901,30 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0}
   .hero-titulo{font-size:clamp(30px,8.6vw,46px)}
   .cartao-codigo{display:none}
   .secao-topo{flex-direction:column;align-items:flex-start}
-    .projeto{flex-basis:82%}
+  .grade-projetos{grid-template-columns:1fr}
+  .projeto-capa{aspect-ratio:16/10}
   .projeto-meta{max-height:none;opacity:1}
+  /* com o topo da seção em coluna o filtro fica à esquerda, e a lista
+     alinhada à direita saía da tela e escondia o primeiro item.      */
+  .filtro-menu{left:0;right:auto}
+}
+
+/* cases em telas menores: grade parada em vez de tira que desliza.
+   As setas somem e o cartão não levanta no toque. Fica depois das
+   regras da tira porque tem a mesma especificidade e precisa vencer. */
+@media (max-width:900px){
+  .grade-projetos{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
+    overflow:visible;scroll-snap-type:none;padding-bottom:0
+  }
+  .projeto{flex:none;width:auto;min-width:0}
+  .projeto:hover{transform:none;box-shadow:none;border-color:var(--tinta-12)}
+  .projeto:hover .projeto-capa img{transform:none}
+  .projeto.entrando{animation:none}
+  .proj-barra .dep-setas{display:none}
+}
+@media (max-width:640px){
+  .grade-projetos{grid-template-columns:1fr}
 }
 
 /* ── quem pediu menos movimento recebe menos movimento ── */
